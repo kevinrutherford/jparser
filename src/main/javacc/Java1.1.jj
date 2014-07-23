@@ -1121,13 +1121,6 @@ void UnmodifiedInterfaceDeclaration() :
 	 	ObjectMetric metric = new ObjectMetric();
 }
 {
-        {
-                if (!_sClass.equals("")) {
-                        _sClass += ".";
-                }
-                _sClass += getToken(2).image;
-                _classLevel ++;
-        }
   "interface" Identifier() [TypeParameters()] [ "extends" NameList() ]
   "{" ( InterfaceMemberDeclaration() )* "}"
         {

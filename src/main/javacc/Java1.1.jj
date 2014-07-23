@@ -57,9 +57,6 @@ public class JavaParser implements JavaParserInterface
     private int     _classLevel      = 0;
     private int     _anonClassCount  = 1;
 
-    private int     _jvdcLines = 0;           // added by SMS
-    private int     _jvdc      = 0;
-    private boolean _bPrivate  = true;//false;        // added by SMS
     private boolean _bPublic   = true;        // added by SMS
 
     private int _num_dependencies = 0;
@@ -111,67 +108,6 @@ public class JavaParser implements JavaParserInterface
 
     public void parse() throws Exception {
       CompilationUnit();
-    }
-
-    public void parseImportUnit() throws Exception {
-      ImportUnit();
-    }
-
-    public int getNcss() {
-        return _ncss;
-    }
-
-    public int getLOC() {
-        return _loc;
-    }
-
-    // added by SMS
-    public int getJvdc() {
-        return _jvdc;
-    }
-
-    /*public int getTopLevelClasses() {
-      return _topLevelClasses;
-      }*/
-
-    public List<FunctionMetric> getFunction() {
-        return _vFunctions;
-    }
-
-    /**
-     * @return Top level classes in sorted order
-     */
-    public List<ObjectMetric> getObject() {
-        Collections.sort(_vClasses);
-        return _vClasses;
-    }
-
-    /**
-     * @return The empty package consists of the name ".".
-     */
-    public Map<String, PackageMetric> getPackage() {
-        return _htPackage;
-    }
-
-    public List<Object[]> getImports() {
-        return _vImports;
-    }
-
-    /**
-     * name, beginLine, ...
-     */
-    public Object[] getPackageObjects() {
-        return _aoPackage;
-    }
-
-    /**
-     * if javancss is used with cat *.java a long
-     * input stream might get generated, so line
-     * number information in case of an parse exception
-     * is not very useful.
-     */
-    public String getLastFunction() {
-        return _sPackage + _sClass + _sFunction;
     }
 
    /**
@@ -1044,25 +980,12 @@ void ClassDeclaration() :
     int oldSingle = 0;
     int oldMulti  = 0;
 
-    _jvdcLines    = 0;
-    boolean bTemp = _bPublic;
-    _bPublic      = false;
-    //
-
-	//Added by REYNAUD Sebastien (LOGICA)
 	Token myToken = null;
-	//
 }
 {
-	//Added by REYNAUD Sebastien (LOGICA)
-	(
-	{myToken = getToken(1);}
-	Annotation()
-	{tmpToken = myToken;}
-	)?
+	( Annotation() )?
 
 	(Annotation())*
-	//
 
   ( "abstract"
   {
@@ -1108,8 +1031,6 @@ void ClassDeclaration() :
           if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
               _javadocs++;
               if (_bPublic) {
-                  _jvdc++;
-                  _jvdcLines += JavaParserTokenManager._iMultiCommentsLast;
                   JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
               }
               JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
@@ -1231,8 +1152,6 @@ void NestedClassDeclaration() :
         if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
             _javadocs++;
             if ((_bPublic && bPublic)) {
-                _jvdc++;
-                _jvdcLines += JavaParserTokenManager._iMultiCommentsLast;
                 JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
             }
             JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
@@ -1309,7 +1228,6 @@ void InterfaceDeclaration() :
         int oldSingle;
         int oldMulti;
 
-        _jvdcLines = 0;
         boolean bTemp = _bPublic;
         _bPublic = false;
         //
@@ -1357,8 +1275,6 @@ void InterfaceDeclaration() :
                     if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
                         _javadocs++;
                         if (_bPublic) {
-                            _jvdc++;
-                            _jvdcLines += JavaParserTokenManager._iMultiCommentsLast;
                             JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
                         }
                         JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
@@ -1388,14 +1304,8 @@ void InterfaceDeclaration() :
                  }*/
              metric = _vClasses.get( _vClasses.size() - 1 );
              metric.javadocs = _javadocs;
-
-             // added by SMS
-             metric.javadocsLn = _jvdcLines;
              metric.singleLn = JavaParserTokenManager._iSingleComments - oldSingle;
              metric.multiLn = JavaParserTokenManager._iMultiComments - oldMulti;
-             //
-
-            // added by SMS
             _bPublic = bTemp;
          }
 }
@@ -1444,8 +1354,6 @@ void NestedInterfaceDeclaration() :
         if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
             _javadocs++;
             if ((_bPublic && bPublic)) {
-                _jvdc++;
-                _jvdcLines += JavaParserTokenManager._iMultiCommentsLast;
                 JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
             }
             JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
@@ -1561,8 +1469,6 @@ void FieldDeclaration() :
                     {
                         if ((bPublic && _bPublic))
                         {
-                            _jvdc++;
-                            _jvdcLines += JavaParserTokenManager._iMultiCommentsLast;
                             JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
                         }
                         JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
@@ -1758,14 +1664,6 @@ void MethodDeclaration() :
           if ( tmpToken.specialToken.image.startsWith( "/**" ) )
           {
               _javadocs++;
-              jvdc++;
-              if ((bPublic && _bPublic)) {
-                  _jvdc++;
-                  jvdcLines = JavaParserTokenManager._iMultiCommentsLast;
-                  _jvdcLines += jvdcLines;
-                  JavaParserTokenManager._iFormalComments += jvdcLines;
-              }
-              JavaParserTokenManager._iMultiComments -= jvdcLines;
               break;
           }  else if ( tmpToken.specialToken.image.startsWith( "/*" ) ) {
               jvdcLines = 0;
@@ -1947,10 +1845,6 @@ void ConstructorDeclaration() :
                         _javadocs++;
                         jvdc++;
                         if ((bPublic && _bPublic)) {
-                            _jvdc++;
-                            jvdcLines = JavaParserTokenManager._iMultiCommentsLast;
-                            _jvdcLines += jvdcLines;
-                            JavaParserTokenManager._iFormalComments += jvdcLines;
                         }
                         JavaParserTokenManager._iMultiComments -= jvdcLines;
                         break;
@@ -2966,11 +2860,6 @@ void EnumDeclaration(int modifiers):
                  //metric.add( new Integer( lastToken.endLine ) );
                  //metric.add( new Integer( lastToken.endColumn ) );
                  metric.javadocs = _javadocs;
-
-                 // Chris Povirk
-                 metric.javadocsLn = _jvdcLines;
-                 metric.singleLn = JavaParserTokenManager._iSingleComments - oldSingle;
-                 metric.multiLn = JavaParserTokenManager._iMultiComments - oldMulti;
 
                  _vClasses.add(metric);
                  _pPackageMetric.functions += _functions - oldFunctions;

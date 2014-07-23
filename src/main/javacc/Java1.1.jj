@@ -51,11 +51,6 @@ PARSER_END(JavaParser)
 
 TOKEN_MGR_DECLS :
 {
-    public static int  _iSingleComments = 0;
-    public static int  _iMultiComments = 0;
-    public static int  _iFormalComments = 0;
-    public static int  _iMultiCommentsLast = 0;
-    public static int nbligne = 1;
 }
 
 SKIP :
@@ -65,28 +60,27 @@ SKIP :
 
 MORE :
 {
-  "/*" { _iMultiCommentsLast = 0; } : IN_MULTI_LINE_COMMENT     // MODIFIED by SMS
+  "/*" : IN_MULTI_LINE_COMMENT
 }
 
 SPECIAL_TOKEN :
 {
-   <SINGLE_LINE_COMMENT: "//"> { _iSingleComments++; } : IN_SINGLE_LINE_COMMENT       // MODIFIED by SMS:  the global counter is incremented
+   <SINGLE_LINE_COMMENT: "//"> : IN_SINGLE_LINE_COMMENT
 }
 
 <IN_SINGLE_LINE_COMMENT>
 SPECIAL_TOKEN :
 {
-    <SINGLE_LINE_COMMENT2: (~["\n","\r"])* ("\n"|"\r"|"\r\n")?> /*Added by REYNAUD Sebastien (LOGICA)*/ {nbligne++;} /* */: DEFAULT
+    <SINGLE_LINE_COMMENT2: (~["\n","\r"])* ("\n"|"\r"|"\r\n")?> : DEFAULT
 }
 
 <IN_MULTI_LINE_COMMENT>
 SPECIAL_TOKEN :
 {
-  <END_OF_LINE_MULTI: "\n" | "\r" | "\r\n" > {/*Added by REYNAUD Sebastien (LOGICA)*/ nbligne++; /* */ _iMultiComments++; _iMultiCommentsLast++; } : IN_MULTI_LINE_COMMENT      // added by SMS
-  | <MULTI_LINE_COMMENT: "*/" > { _iMultiComments++; _iMultiCommentsLast++; } : DEFAULT                                 // the global counter is incremented
+  <END_OF_LINE_MULTI: "\n" | "\r" | "\r\n" > : IN_MULTI_LINE_COMMENT
+  | <MULTI_LINE_COMMENT: "*/" > : DEFAULT
 }
 
-//<IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
 <IN_SINGLE_LINE_COMMENT,IN_MULTI_LINE_COMMENT>
 MORE :
 {
@@ -596,20 +590,6 @@ TOKEN :
 
 void CompilationUnit() :
 {
-    int oldNcss = 0;
-
-    // added by SMS
-    int oldFormal = 0;
-    int oldSingle = 0;
-    int oldMulti  = 0;
-
-    JavaParserTokenManager._iSingleComments = 0;
-    JavaParserTokenManager._iMultiComments = 0;
-    JavaParserTokenManager._iFormalComments = 0;
-
-    JavaParserTokenManager._iMultiCommentsLast = 0;
-
-  	JavaParserTokenManager.nbligne = 1; //Added by REYNAUD Sebastien (LOGICA)
 }
 {
   [ LOOKAHEAD( ( Annotation() )* "package" ) PackageDeclaration() ]

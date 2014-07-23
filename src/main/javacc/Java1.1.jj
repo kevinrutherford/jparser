@@ -578,13 +578,11 @@ TOKEN :
  *****************************************/
 
 void CompilationUnit() :
-{
-}
+{}
 {
   [ LOOKAHEAD( ( Annotation() )* "package" ) PackageDeclaration() ]
   ( ImportDeclaration() )*
-  ( TypeDeclaration()
-    )*
+  ( TypeDeclaration() )*
   ((PackageDeclaration() | ( ImportDeclaration() ) )
   ( ImportDeclaration() )*
   ( TypeDeclaration() )+ )*
@@ -592,8 +590,7 @@ void CompilationUnit() :
 }
 
 void ImportUnit() :
-{
-}
+{}
 {
   [ PackageDeclaration() ]
   ( ImportDeclaration() )*
@@ -602,24 +599,21 @@ void ImportUnit() :
 }
 
 void PackageDeclaration() :
-{
-}
+{}
 {
   (Annotation())* "package" Name() ";"
 }
 
 void ImportDeclaration() :
-{
-}
+{}
 {
   "import" [ "static" ] Name() [ "." "*" ] ";" { _num_dependencies++; }
 }
 
 void TypeDeclaration() :
+{}
 {
-}
-{
-  LOOKAHEAD( (Annotation())* ( "abstract" | "final" | "public" | "synchronized" | "strictfp" )* "class" )
+  LOOKAHEAD((Annotation())* ( "abstract" | "final" | "public" | "synchronized" | "strictfp" )* "class" )
   ClassDeclaration()
   |
   LOOKAHEAD( Modifiers() "enum" <IDENTIFIER> )
@@ -633,18 +627,16 @@ void TypeDeclaration() :
 }
 
 void ClassDeclaration() :
+{}
 {
-}
-{
-	( Annotation() )?
+	(Annotation())?
 	(Annotation())*
   ( "abstract" | "final" | "public" | "synchronized" | "strictfp" )*
   UnmodifiedClassDeclaration()
 }
 
 void UnmodifiedClassDeclaration() :
-{
-}
+{}
 {
   Modifiers()
   "class" Identifier() [TypeParameters()] [ "extends" Name() [TypeArguments()] ("." Name() [TypeArguments()] )* {_num_superclasses++;} ]
@@ -659,8 +651,7 @@ void ClassBody() :
 }
 
 void NestedClassDeclaration() :
-{
-}
+{}
 {
 	(Annotation())?
 	(Annotation())*
@@ -669,8 +660,7 @@ void NestedClassDeclaration() :
 }
 
 void ClassBodyDeclaration() :
-{
-}
+{}
 {
   EmptyStatement()
 |
@@ -713,33 +703,29 @@ void MethodDeclarationLookahead() :
 }
 
 void InterfaceDeclaration() :
+{}
 {
-}
-{
-	( Annotation() )?
+	(Annotation())?
 	(Annotation())*
   ( "strictfp" | "abstract" | "public" )* UnmodifiedInterfaceDeclaration()
 }
 
 void NestedInterfaceDeclaration() :
+{}
 {
-}
-{
-	( Annotation() )? (Annotation())* ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )*
+	(Annotation())? (Annotation())* ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )*
   UnmodifiedInterfaceDeclaration()
 }
 
 void UnmodifiedInterfaceDeclaration() :
-{
-}
+{}
 {
   "interface" Identifier() [TypeParameters()] [ "extends" NameList() ]
   "{" ( InterfaceMemberDeclaration() )* "}"
 }
 
 void InterfaceMemberDeclaration() :
-{
-}
+{}
 {
   EmptyStatement()
 |
@@ -760,10 +746,7 @@ void InterfaceMemberDeclaration() :
 }
 
 void FieldDeclaration() :
-{
-    Token tmpToken = null;
-    boolean bPublic = false;
-}
+{}
 {
   ( "public" | "protected" | "private" | "static" | "final" | "transient" | "volatile" | Annotation() )*
   Type() VariableDeclarator() ( "," VariableDeclarator() )* ";"
@@ -796,8 +779,7 @@ void ArrayInitializer() :
 }
 
 void MethodDeclaration() :
-{
-}
+{}
 {
   (Annotation())*
   ( "public" | "protected" | "private" | "static" | "abstract" | "final" | "native" | "synchronized" | "strictfp" | Annotation() )*
@@ -834,8 +816,7 @@ void CatchParameter() :
 }
 
 void ConstructorDeclaration() :
-{
-}
+{}
 {
 	(Annotation())*
   [ "public" | "protected" | "private" ]
@@ -851,8 +832,7 @@ void ConstructorDeclaration() :
 }
 
 void ExplicitConstructorInvocation() :
-{
-}
+{}
 {
   LOOKAHEAD("this" "(" ) "this" Arguments() ";" | [ LOOKAHEAD(PrimaryExpression() ".") PrimaryExpression() "." ] "super" Arguments() ";"
 }
@@ -911,8 +891,7 @@ void NameList() :
 }
 
 void Expression() :
-{
-}
+{}
 {
   LOOKAHEAD( PrimaryExpression() AssignmentOperator() )
   Assignment() | ConditionalExpression()
@@ -1013,11 +992,11 @@ void UnaryExpression() :
 {}
 {
   ( "+" | "-" ) UnaryExpression()
-|
+  |
   PreIncrementExpression()
-|
+  |
   PreDecrementExpression()
-|
+  |
   UnaryExpressionNotPlusMinus()
 }
 
@@ -1037,10 +1016,9 @@ void UnaryExpressionNotPlusMinus() :
 {}
 {
   ( "~" | "!" ) UnaryExpression()
-|
-  LOOKAHEAD( CastLookahead() )
-  CastExpression()
-|
+  |
+  LOOKAHEAD(CastLookahead()) CastExpression()
+  |
   PostfixExpression()
 }
 
@@ -1078,8 +1056,7 @@ void CastExpression() :
 }
 
 void PrimaryExpression() :
-{
-}
+{}
 {
   PrimaryPrefix() ( LOOKAHEAD(2) PrimarySuffix() )*
 }
@@ -1125,8 +1102,7 @@ void PrimarySuffix() :
 }
 
 void Literal() :
-{
-}
+{}
 {
   <INTEGER_LITERAL> | <FLOATING_POINT_LITERAL> | <CHARACTER_LITERAL> | <STRING_LITERAL> | BooleanLiteral() | NullLiteral()
 }
@@ -1144,36 +1120,24 @@ void NullLiteral() :
 }
 
 void Arguments() :
-{
-}
+{}
 {
   "(" [ ArgumentList() ] ")"
 }
 
 void ArgumentList() :
-{
-}
+{}
 {
   Expression() ( "," Expression() )*
 }
 
 void AllocationExpression() :
-{
-}
+{}
 {
   LOOKAHEAD(2)
   "new" PrimitiveType() ArrayDimsAndInits()
-|
-         "new" Name()
-  [TypeArguments()]
-      (
-      ArrayDimsAndInits()
-    |
-      Arguments()
-                [
-                        ClassBody()
-                ]
-    )
+  |
+  "new" Name() [TypeArguments()] (ArrayDimsAndInits() | Arguments() [ClassBody()])
 }
 
 void ArrayDimsAndInits() :
@@ -1181,13 +1145,12 @@ void ArrayDimsAndInits() :
 {
   LOOKAHEAD(2)
   ( LOOKAHEAD(2) "[" Expression() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
-|
+  |
   ( "[" "]" )+ ArrayInitializer()
 }
 
 void Statement() :
-{
-}
+{}
 {
   LOOKAHEAD(2)
   LabeledStatement()
@@ -1231,16 +1194,14 @@ void LabeledStatement() :
 }
 
 void AssertStatementLookahead() :
-{
-}
+{}
 {
   <ASSERT>
   Expression()
 }
 
 void AssertStatement() :
-{
-}
+{}
 {
   <ASSERT>
   Expression()
@@ -1282,8 +1243,7 @@ void EmptyStatement() :
 }
 
 void StatementExpression() :
-{
-}
+{}
 {
   PreIncrementExpression()
 |
@@ -1503,8 +1463,7 @@ void AnnotationTypeBody():
 }
 
 void AnnotationTypeMemberDeclaration():
-{
-}
+{}
 {
  Modifiers()
  (
@@ -1530,31 +1489,27 @@ void DefaultValue():
 }
 
 void Modifiers():
-{
-}
+{}
 {
  (LOOKAHEAD(2) ("public" | "static" | "protected" | "private" | "final" | "abstract" | "synchronized" |
    "native" | "transient" | "volatile" | "strictfp" | Annotation() ) )*
 }
 
 void ClassOrInterfaceDeclaration():
+{}
 {
-   boolean isInterface = false;
-}
-{
-  ( "class" | "interface" { isInterface = true; } )
+  ( "class" | "interface" )
   <IDENTIFIER>
   [ TypeParameters() ]
-  [ ExtendsList(isInterface) ]
-  [ ImplementsList(isInterface) ]
-  ClassOrInterfaceBody(isInterface)
+  [ ExtendsList() ]
+  [ ImplementsList() ]
+  ClassOrInterfaceBody()
 }
 
 void EnumDeclaration():
+{}
 {
-}
-{
-    "enum" <IDENTIFIER> [ ImplementsList(false) ]
+    "enum" <IDENTIFIER> [ ImplementsList() ]
   EnumBody()
 }
 
@@ -1564,32 +1519,29 @@ void TypeParameters():
   "<" TypeParameter() ( "," TypeParameter() )* ">"
 }
 
-void ExtendsList(boolean isInterface):
+void ExtendsList():
+{}
 {
-   boolean extendsMoreThanOne = false;
-}
-{
-   "extends" ClassOrInterfaceType()
-   ( "," ClassOrInterfaceType() { extendsMoreThanOne = true; } )*
+   "extends" ClassOrInterfaceType() ( "," ClassOrInterfaceType() )*
 }
 
-void ImplementsList(boolean isInterface):
+void ImplementsList():
 {}
 {
    "implements" ClassOrInterfaceType()
    ( "," ClassOrInterfaceType() )*
 }
 
-void ClassOrInterfaceBody(boolean isInterface):
+void ClassOrInterfaceBody():
 {}
 {
-  "{" ( ClassOrInterfaceBodyDeclaration(isInterface) )* "}"
+  "{" ( ClassOrInterfaceBodyDeclaration() )* "}"
 }
 
 void EnumBody():
 {}
 {
-    "{" [ EnumConstant() ( LOOKAHEAD(2) "," EnumConstant() )* ] [ "," ] [ ";" ( ClassOrInterfaceBodyDeclaration(false) )* ] "}"
+    "{" [ EnumConstant() ( LOOKAHEAD(2) "," EnumConstant() )* ] [ "," ] [ ";" ( ClassOrInterfaceBodyDeclaration() )* ] "}"
 }
 
 void TypeParameter():
@@ -1607,9 +1559,8 @@ void ClassOrInterfaceType():
  [ LOOKAHEAD(2) TypeArguments() ] )*
 }
 
-void ClassOrInterfaceBodyDeclaration(boolean isInterface):
-{
-}
+void ClassOrInterfaceBodyDeclaration():
+{}
 {
   LOOKAHEAD(2)
   Initializer()
@@ -1635,7 +1586,7 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
 void EnumConstant():
 {}
 {
-  Modifiers() <IDENTIFIER> [ Arguments() ] [ ClassOrInterfaceBody(false) ]
+  Modifiers() <IDENTIFIER> [ Arguments() ] [ ClassOrInterfaceBody() ]
 }
 
 void TypeBound():

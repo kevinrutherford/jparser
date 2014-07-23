@@ -180,6 +180,18 @@
         <version>2.8.1</version>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.3</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>2.6</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>buildnumber-maven-plugin</artifactId>
         <version>1.2</version>
@@ -358,6 +370,14 @@
         <artifactId>jdepend-maven-plugin</artifactId>
         <version>2.0-beta-2</version>
       </plugin>
+      <!--<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.0.1</version>
+        <configuration>
+          <excludeFilterFile>src/site/findbugs-exclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>-->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
@@ -383,4 +403,21 @@
     </plugins>
   </reporting>
 
+  <distributionManagement>
+    <repository>
+      <id>codehaus.org</id>
+      <name>JavaNCSS Central Repository</name>
+      <url>dav:https://dav.codehaus.org/repository/javancss/</url>
+    </repository>
+    <snapshotRepository>
+      <id>codehaus.org</id>
+      <name>JavaNCSS Central Development Repository</name>
+      <url>dav:https://dav.codehaus.org/snapshots.repository/javancss/</url>
+    </snapshotRepository>
+    <site>
+      <id>codehaus.org</id>
+      <name>JavaNCSS Website</name>
+      <url>dav:https://dav.codehaus.org/javancss/</url>
+    </site>
+  </distributionManagement>
 </project>

@@ -12,7 +12,6 @@
         <include>pom.xml</include>
         <include>lib/</include>
         <include>src/</include>
-        <include>xslt/</include>
       </includes>
     </fileSet>
   </fileSets>

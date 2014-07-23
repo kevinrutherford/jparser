@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <path id="task.classpath" refid="maven.compile.classpath"/>
+  <taskdef name="javancss" classname="javancss.JavancssAntTask" classpathref="task.classpath"/>
+  <javancss abortOnFail="true" generateReport="yes" ccnPerFuncMax="100" classMetrics="false" srcdir="src/main/java" functionMetrics="false" includes="**/*.java"/>
+</target>
+</project>

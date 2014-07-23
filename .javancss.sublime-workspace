@@ -1,0 +1,696 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"_p",
+				"_pJavaParser"
+			],
+			[
+				"_nu",
+				"_num_branches"
+			],
+			[
+				"pr",
+				"println"
+			],
+			[
+				"Fil",
+				"FileMetrics"
+			],
+			[
+				"nu",
+				"num_superclasses"
+			],
+			[
+				"fu",
+				"function_complexities"
+			],
+			[
+				"com",
+				"complexity"
+			],
+			[
+				"hea",
+				"heat_colours"
+			],
+			[
+				"max",
+				"max_churn"
+			],
+			[
+				"comple",
+				"complexity_report"
+			],
+			[
+				"ch",
+				"churn"
+			],
+			[
+				"c",
+				"churn_vs_complexity"
+			],
+			[
+				"compl",
+				"complexity_report"
+			],
+			[
+				"file",
+				"files_glob"
+			],
+			[
+				"comm",
+				"commits_file_path"
+			],
+			[
+				"de",
+				"detail"
+			],
+			[
+				"me",
+				"method_comps"
+			],
+			[
+				"is_",
+				"is_branch_point"
+			],
+			[
+				"req",
+				"requires"
+			],
+			[
+				"sourc",
+				"source_code"
+			],
+			[
+				"so",
+				"source_code"
+			],
+			[
+				"co",
+				"complexity_trend"
+			],
+			[
+				"cha",
+				"charting_function"
+			],
+			[
+				"ta",
+				"target_div"
+			],
+			[
+				"bt",
+				"btn-hover-background"
+			],
+			[
+				"br",
+				"brand-color"
+			],
+			[
+				"le",
+				"letter-spacing"
+			],
+			[
+				"mast",
+				"mast-color"
+			],
+			[
+				"tex",
+				"text-color"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"font-s",
+				"font-style"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"padd",
+				"padding-bottom"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"set",
+				"setTilePos"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/main/javacc/Java1.1.jj",
+			"settings":
+			{
+				"buffer_size": 81780,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/main/java/javancss/Javancss.java",
+			"settings":
+			{
+				"buffer_size": 20797,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/main/java/javancss/AsciiFormatter.java",
+			"settings":
+			{
+				"buffer_size": 15012,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/main/java/javancss/FileMetrics.java",
+			"settings":
+			{
+				"buffer_size": 339,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/main/javacc/JavaParserInterface.java",
+			"settings":
+			{
+				"buffer_size": 694,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Ruby/Ruby.sublime-build",
+	"command_palette":
+	{
+		"height": 75.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 139.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/kevin/Working/git/javancss/src/test/java/javancss/test/XmlFormatterTest.java",
+		"/home/kevin/Working/git/javancss/target/generated-sources/javacc/javancss/parser/JavaParserInterface.java",
+		"/home/kevin/Working/git/javancss/src/main/javacc/debug/JavaDebug1.1.jj",
+		"/home/kevin/Working/git/javancss/src/main/java/javancss/Formatter.java",
+		"/home/kevin/Working/git/javancss/src/main/java/javancss/Main.java",
+		"/home/kevin/Working/git/javancss/src/main/javacc/JavaParserInterface.java",
+		"/home/kevin/Working/git/javancss/bin/javancss",
+		"/home/kevin/Working/git/javancss/src/main/java/javancss/Metric.java",
+		"/home/kevin/Working/git/javancss/src/main/java/javancss/PackageMetric.java",
+		"/home/kevin/Working/git/bday-soln/java/src/OurDate.java",
+		"/home/kevin/Working/git/ecomp/lib/ruby/ruby_source_file.rb",
+		"/home/kevin/Working/git/ecomp/public/charts.js",
+		"/home/kevin/Working/git/ecomp/bin/metrics",
+		"/home/kevin/Working/git/ecomp/bin/javacc",
+		"/home/kevin/Working/git/reek/lib/reek/smells/attribute.rb",
+		"/home/kevin/Working/git/reek/lib/reek/cli.rb",
+		"/home/kevin/Working/git/reek/lib/reek/detector_stack.rb",
+		"/home/kevin/Working/git/ecomp/bin/javancss",
+		"/home/kevin/Working/git/ecomp/views/index.haml",
+		"/home/kevin/Working/git/ecomp/bin/rubycc",
+		"/home/kevin/Working/git/ecomp/public/data/bday/current_files.json",
+		"/home/kevin/Working/git/ecomp/public/data/bday/commits.json",
+		"/home/kevin/Working/git/katas/birthday-greetings/java/src/OurDate.java",
+		"/home/kevin/Working/javancss/bin/javancss",
+		"/home/kevin/Working/git/ecomp/public/styles.css",
+		"/home/kevin/Working/git/katas/birthday-greetings/java/src/Employee.java",
+		"/home/kevin/Working/javancss/src/main/javacc/Java1.1.jj",
+		"/home/kevin/Working/javancss/src/main/java/javancss/Javancss.java",
+		"/home/kevin/Working/javancss/src/main/java/javancss/Main.java",
+		"/home/kevin/Working/git/ecomp/.gitignore",
+		"/home/kevin/Working/git/ecomp/bin/sizes",
+		"/home/kevin/Working/git/ecomp/public/data/reek/commits.json",
+		"/home/kevin/Working/git/ecomp/bin/ctrend",
+		"/home/kevin/Working/git/ecomp/public/data/commits.json",
+		"/home/kevin/Working/git/ecomp/Gemfile",
+		"/home/kevin/Working/git/ecomp/bin/complex",
+		"/home/kevin/Working/git/ecomp/public/data/commits_by_author.json",
+		"/home/kevin/Working/git/ecomp/public/data/commit_sizes.json",
+		"/home/kevin/Working/git/ecomp/public/chart.js",
+		"/home/kevin/Working/git/ecomp/bin/cvc",
+		"/home/kevin/Working/git/ecomp/fred.rb",
+		"/home/kevin/Working/git/cane/lib/cane/abc_check.rb",
+		"/home/kevin/Working/git/reek/lib/reek/cli/command_line.rb",
+		"/home/kevin/Working/git/reek/lib/reek/source/source_file.rb",
+		"/home/kevin/Working/git/reek/bin/reek",
+		"/home/kevin/Working/git/reek/lib/reek/cli/application.rb",
+		"/home/kevin/Working/git/reek/lib/reek/source/source_code.rb",
+		"/home/kevin/Working/git/event_bus/lib/event_bus.rb",
+		"/home/kevin/Working/git/ecomp/public/data/complexity.json",
+		"/home/kevin/Working/git/ecomp/lib/ecomp.rb",
+		"/home/kevin/Working/git/xpsurgery/layouts/default.haml",
+		"/home/kevin/Working/git/ecomp/server.rb",
+		"/home/kevin/.config/sublime-text-2/Packages/User/Ruby Haml.sublime-settings",
+		"/home/kevin/.config/sublime-text-2/Packages/User/JSON.sublime-settings",
+		"/home/kevin/.config/sublime-text-2/Packages/User/JavaScript.sublime-settings",
+		"/home/kevin/.config/sublime-text-2/Packages/User/Ruby.sublime-settings",
+		"/home/kevin/Working/git/ecomp/chart.js",
+		"/home/kevin/Working/git/ecomp/.ecomp.sublime-project",
+		"/home/kevin/Working/git/ecomp/index.html",
+		"/home/kevin/Working/git/ecomp/.ecomp.sublime-workspace",
+		"/home/kevin/Working/git/ecomp/config.ru",
+		"/home/kevin/Working/git/passgen/Gemfile",
+		"/home/kevin/Working/git/passgen/app/domain/adjective.rb",
+		"/home/kevin/Working/git/katas/coffee-shop/java/src/CoffeeShop.java",
+		"/home/kevin/Working/git/rslcm/app/assets/stylesheets/application-print.css.less",
+		"/home/kevin/Working/git/rslcm/app/assets/stylesheets/application.css.less",
+		"/home/kevin/Working/git/rslcm/config/deploy.rb",
+		"/home/kevin/Working/git/rslcm/Gemfile",
+		"/home/kevin/Working/git/rslcm/spec/models/page_view_spec.rb",
+		"/home/kevin/Working/git/rslcm/spec/controllers/cards_controller_spec.rb",
+		"/home/kevin/Working/git/rslcm/spec/spec_helper.rb",
+		"/home/kevin/Working/git/rslcm/spec/support/controller_helpers.rb",
+		"/home/kevin/Working/git/rslcm/config/routes.rb",
+		"/home/kevin/Working/git/rslcm/app/controllers/root_controller.rb",
+		"/home/kevin/Working/git/rslcm/lib/tasks/cucumber.rake",
+		"/home/kevin/Working/git/rslcm/.gitignore",
+		"/home/kevin/Working/git/rslcm/config/database.yml",
+		"/home/kevin/Working/git/rslcm/config/initializers/devise.rb",
+		"/home/kevin/Working/git/xpsurgery/content/training.haml",
+		"/home/kevin/Working/git/xpsurgery/content/stylesheet.less",
+		"/home/kevin/Working/git/xpsurgery/content/index.haml",
+		"/home/kevin/Working/git/xpsurgery/layouts/_main_nav.haml",
+		"/home/kevin/Working/git/xpsurgery/content/scripts/expando_footer.js",
+		"/home/kevin/Working/git/xpsurgery/content/scripts/ga.js",
+		"/home/kevin/Working/git/xpsurgery/Rules",
+		"/home/kevin/Working/git/xpsurgery/layouts/_footer.haml",
+		"/home/kevin/Working/git/xpsurgery/content/coaching.haml",
+		"/home/kevin/Working/git/xpsurgery/content/remote_pairing.haml",
+		"/home/kevin/Working/git/xpsurgery/content/coaching/heartbeat_training.haml",
+		"/home/kevin/Working/git/xpsurgery/content/coaching/xp_coaching.haml",
+		"/home/kevin/Working/git/xpsurgery/layouts/_price_button.haml",
+		"/home/kevin/Working/git/xpsurgery/content/about.haml",
+		"/home/kevin/Working/git/xpsurgery/content/training/agile_applied.haml",
+		"/home/kevin/Working/git/xpsurgery/content/training/agile_in_1_day.haml",
+		"/home/kevin/Working/git/xpsurgery/content/training/agile_requirements.haml",
+		"/home/kevin/Working/git/xpsurgery/content/training/getting_started_with_legacy_code.haml",
+		"/home/kevin/Working/git/xpsurgery/content/training/getting_started_with_tdd.haml",
+		"/home/kevin/Working/git/xpsurgery/content/training/habitable_code.haml",
+		"/home/kevin/Working/git/xpsurgery/content/training/in_house.haml",
+		"/home/kevin/Working/git/xpsurgery/content/coaching/capability_review.haml",
+		"/home/kevin/Working/git/xpsurgery/content/coaching/team_coaching.haml",
+		"/home/kevin/Working/git/xpsurgery/layouts/_standard_conditions.haml",
+		"/home/kevin/Working/git/xpsurgery/layouts/_course_details.haml",
+		"/home/kevin/Working/git/xpsurgery/layouts/_fold_cta.haml",
+		"/home/kevin/Working/git/xpsurgery/lib/helpers.rb",
+		"/home/kevin/.config/sublime-text-2/Packages/CTags/Default.sublime-keymap",
+		"/home/kevin/Working/git/xpsurgery/Gemfile",
+		"/home/kevin/Working/git/xpsurgery/content/stylesheet.css",
+		"/home/kevin/Working/git/xpsurgery/content/courses.haml",
+		"/home/kevin/Working/git/xpsurgery/.xpsurgery.sublime-project",
+		"/home/kevin/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/kevin/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/kevin/Working/git/xpsurgery/.gitignore",
+		"/home/kevin/Working/git/logichub/server/users.rb",
+		"/home/kevin/Working/git/logichub/spec/server/users_spec.rb",
+		"/home/kevin/Working/git/logichub/server/change_settings.rb",
+		"/home/kevin/Working/git/logichub/.logichub.sublime-project",
+		"/home/kevin/Working/git/logichub/.gitignore",
+		"/home/kevin/Working/git/logichub/server/html/routes.rb",
+		"/home/kevin/minecraft/mcpipy/zhuowei_rainbow.py",
+		"/home/kevin/minecraft/mcpipy/jjinux_sierpinski_triangle.py",
+		"/usr/share/applications/sublime.desktop"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"extends",
+			"_num_super",
+			"extends",
+			"import",
+			"_cyc",
+			"&&",
+			"_num_branches",
+			"catch",
+			"_num_branches",
+			"_superclasses",
+			"catch",
+			"_measureSource",
+			"_measureRoot",
+			"_vFunctionMetrics",
+			"printFileStats",
+			"printPackageNcss",
+			"format",
+			"printObjectNcss",
+			"getFormatter",
+			"_measureSource",
+			"_measureFiles",
+			"_measureRoot",
+			"xml",
+			"setXML",
+			"bXML",
+			"useXML",
+			"sOutputFile",
+			"gui",
+			"throw",
+			"_pPackageMetric",
+			"_vClasses",
+			"_vFunctions",
+			"functionMetrics",
+			"_cyc",
+			"ccn",
+			"_cyc",
+			"ExtendsList",
+			"ClassOrInterfaceDeclaration",
+			"ExtendsList",
+			"implements",
+			"ClassBodyDeclaration",
+			"extend",
+			"efferent_multiplier",
+			"@requires * ",
+			"requires",
+			"method_comps",
+			"round",
+			"@requires",
+			"date",
+			"churn",
+			"update_with_complexity",
+			"all_commits",
+			"complexity_report",
+			"_cyc",
+			"current_files_path",
+			"commits_file_path",
+			"sizes_plot",
+			"logs",
+			"git_commits",
+			"size",
+			"hash",
+			"hashes",
+			"complexity_plot_points",
+			"draw_complexity_chart",
+			"complexity_trend",
+			"dates",
+			"'",
+			"%",
+			", ",
+			"', ",
+			", ",
+			",  ",
+			"),",
+			"Date.new(",
+			"UTC",
+			"\"",
+			"container",
+			"#bs-example-navbar-collapse-1",
+			"letter-spacing",
+			"hs",
+			"uppercase",
+			".\n",
+			" -- ",
+			"--",
+			"#e58117",
+			"section",
+			"color",
+			"users",
+			" "
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\"",
+			"', ",
+			"-",
+			"%",
+			"-",
+			"',",
+			"'",
+			" &mdash; ",
+			"&mdash;",
+			"@brand-color",
+			"repo"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/main/javacc/Java1.1.jj",
+					"settings":
+					{
+						"buffer_size": 81780,
+						"regions":
+						{
+							"mark":
+							{
+								"flags": 144,
+								"icon": "dot",
+								"regions":
+								[
+									[
+										30953,
+										30953
+									]
+								],
+								"scope": "mark"
+							}
+						},
+						"selection":
+						[
+							[
+								30952,
+								30952
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 20295.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/main/java/javancss/Javancss.java",
+					"settings":
+					{
+						"buffer_size": 20797,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5616,
+								5616
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2880.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/main/java/javancss/AsciiFormatter.java",
+					"settings":
+					{
+						"buffer_size": 15012,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14802,
+								14802
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5810.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/main/java/javancss/FileMetrics.java",
+					"settings":
+					{
+						"buffer_size": 339,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								50,
+								50
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/main/javacc/JavaParserInterface.java",
+					"settings":
+					{
+						"buffer_size": 694,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								640,
+								640
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 207.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 221.0,
+	"status_bar_visible": true
+}

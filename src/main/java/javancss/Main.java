@@ -13,11 +13,7 @@ public class Main
     public static void main(String[] asArgs) throws IOException
     {
         Locale.setDefault(Locale.US);
-        Javancss pJavancss = new Javancss( asArgs );
-        if ( pJavancss.getLastErrorMessage() != null )
-        {
-            System.exit( 1 );
-        }
+        Javancss pJavancss = new Javancss(asArgs);
         System.exit( 0 );
     }
 }

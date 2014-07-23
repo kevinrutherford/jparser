@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,160 +60,35 @@ public class Javancss implements Exitable
 
     private List<File> _vJavaSourceFiles = null;
 
-    private String _sErrorMessage = null;
     private Throwable _thrwError = null;
 
     private JavaParserInterface _pJavaParser = null;
-    private int _ncss = 0;
-    private int _loc = 0;
     private FileMetrics _fileMetrics = new FileMetrics();
-    private List<FunctionMetric> _vFunctionMetrics = new ArrayList<FunctionMetric>();
-    private List<ObjectMetric> _vObjectMetrics = new ArrayList<ObjectMetric>();
-    private List<PackageMetric> _vPackageMetrics = null;
-    private List<Object[]> _vImports = null;
-    private Map<String,PackageMetric> _htPackages = null;
-    private Object[] _aoPackage = null;
 
     /**
      * Just used for parseImports.
      */
     private File _sJavaSourceFile = null;
 
-    private Reader createSourceReader( File sSourceFile_ )
-    {
-        try
-        {
-            return newReader( sSourceFile_ );
-        }
-        catch ( IOException pIOException )
-        {
-            if ( Util.isEmpty( _sErrorMessage ) )
-            {
-                _sErrorMessage = "";
-            }
-            else
-            {
-                _sErrorMessage += "\n";
-            }
-            _sErrorMessage += "File not found: " + sSourceFile_.getAbsolutePath();
-            _thrwError = pIOException;
-
-            return null;
-        }
-    }
-
     private void _measureSource( File sSourceFile_ ) throws IOException, Exception, Error
     {
         _fileMetrics.filename = sSourceFile_.getPath();
         Reader reader = null;
-
-        // opens the file
-        try
-        {
-            reader = newReader( sSourceFile_ );
-        }
-        catch ( IOException pIOException )
-        {
-            if ( Util.isEmpty( _sErrorMessage ) )
-            {
-                _sErrorMessage = "";
-            }
-            else
-            {
-                _sErrorMessage += "\n";
-            }
-            _sErrorMessage += "File not found: " + sSourceFile_.getAbsolutePath();
-            _thrwError = pIOException;
-
-            throw pIOException;
-        }
-
-        String sTempErrorMessage = _sErrorMessage;
-        try
-        {
-            // the same method but with a Reader
-            _measureSource( reader );
-        }
-        catch ( Exception pParseException )
-        {
-            if ( sTempErrorMessage == null )
-            {
-                sTempErrorMessage = "";
-            }
-            sTempErrorMessage += "ParseException in " + sSourceFile_.getAbsolutePath() +
-                   "\nLast useful checkpoint: \"" + _pJavaParser.getLastFunction() + "\"\n";
-            sTempErrorMessage += pParseException.getMessage() + "\n";
-
-            _sErrorMessage = sTempErrorMessage;
-            _thrwError = pParseException;
-
-            throw pParseException;
-        }
-        catch ( Error pTokenMgrError )
-        {
-            if ( sTempErrorMessage == null )
-            {
-                sTempErrorMessage = "";
-            }
-            sTempErrorMessage += "TokenMgrError in " + sSourceFile_.getAbsolutePath() +
-                   "\n" + pTokenMgrError.getMessage() + "\n";
-            _sErrorMessage = sTempErrorMessage;
-            _thrwError = pTokenMgrError;
-
-            throw pTokenMgrError;
-        }
+        reader = newReader(sSourceFile_);
+        _measureSource( reader );
     }
 
     private void _measureSource( Reader reader ) throws IOException, Exception, Error
     {
-        try
-        {
-            _pJavaParser = new JavaParser(reader);
-            _pJavaParser.parse();
-            _pJavaParser.collectFileMetrics(_fileMetrics);
-        } catch ( Exception pParseException ) {
-            if ( _sErrorMessage == null )
-            {
-                _sErrorMessage = "";
-            }
-            _sErrorMessage += "ParseException in STDIN";
-            if ( _pJavaParser != null )
-            {
-                _sErrorMessage += "\nLast useful checkpoint: \"" + _pJavaParser.getLastFunction() + "\"\n";
-            }
-            _sErrorMessage += pParseException.getMessage() + "\n";
-            _thrwError = pParseException;
-
-            throw pParseException;
-        }
-        catch ( Error pTokenMgrError )
-        {
-            if ( _sErrorMessage == null )
-            {
-                _sErrorMessage = "";
-            }
-            _sErrorMessage += "TokenMgrError in STDIN\n";
-            _sErrorMessage += pTokenMgrError.getMessage() + "\n";
-            _thrwError = pTokenMgrError;
-
-            throw pTokenMgrError;
-        }
+        _pJavaParser = new JavaParser(reader);
+        _pJavaParser.parse();
+        _pJavaParser.collectFileMetrics(_fileMetrics);
     }
 
-    private void _measureFiles( List<File> vJavaSourceFiles_ ) throws TokenMgrError
+    private void _measureFiles( List<File> vJavaSourceFiles_ ) throws Exception
     {
-        for ( File file : vJavaSourceFiles_ )
-        {
-            try
-            {
-                _measureSource( file );
-            }
-            catch ( Throwable pThrowable )
-            {
-                // hmm, do nothing? Use getLastError() or so to check for details.
-                // error details have been written into lastError
-            }
-        }
+        for (File file : vJavaSourceFiles_)
+            _measureSource(file);
     }
 
     /**
@@ -223,18 +97,10 @@ public class Javancss implements Exitable
      */
     private void _measureRoot(Reader reader) throws IOException, Exception, Error
     {
-        _htPackages = new HashMap<String, PackageMetric>();
         _measureFiles( _vJavaSourceFiles );
-
-        _vPackageMetrics = new ArrayList<PackageMetric>();
-        for ( PackageMetric pkm : _htPackages.values() )
-        {
-            _vPackageMetrics.add( pkm );
-        }
-        Collections.sort( _vPackageMetrics );
     }
 
-    private List<File> findFiles( List<String> filenames, boolean recursive ) throws IOException {
+    private List<File> findFiles( List<String> filenames) throws IOException {
         if ( filenames.size() == 0 )
             return null;
 
@@ -261,26 +127,14 @@ public class Javancss implements Exitable
     {
         _pInit = new Init( this, asArgs_, Main.S_RCS_HEADER, S_INIT__FILE_CONTENT );
         if ( _bExit )
-        {
             return;
-        }
         Map<String, String> htOptions = _pInit.getOptions();
-
-        // the arguments (the files) to be processed
-        _vJavaSourceFiles = findFiles( _pInit.getArguments(), htOptions.get( "recursive" ) != null );
-
-        // this initiates the measurement
-        try
-        {
+        _vJavaSourceFiles = findFiles( _pInit.getArguments());
+        try {
             _measureRoot( newReader( System.in ) );
-        }
-        catch ( Throwable pThrowable ) {
+        } catch ( Throwable pThrowable ) {
             pThrowable.printStackTrace(System.err);
-        }
-        if ( getLastErrorMessage() != null ) {
-            Util.printlnErr( getLastErrorMessage() + "\n" );
-            if ( getNcss() <= 0 )
-                return;
+            return;
         }
 
         final PrintWriter pw = new PrintWriter(System.out);
@@ -291,35 +145,16 @@ public class Javancss implements Exitable
         }
     }
 
-    public int getNcss()
-    {
-        return _ncss;
-    }
-
-    public String getLastErrorMessage()
-    {
-        return _sErrorMessage;
-    }
-
-    public Throwable getLastError()
-    {
-        return _thrwError;
-    }
-
     public void setExit()
     {
         _bExit = true;
     }
 
-    private Reader newReader( InputStream stream )
-        throws UnsupportedEncodingException
-    {
+    private Reader newReader( InputStream stream ) {
         return new InputStreamReader(stream);
     }
 
-    private Reader newReader( File file )
-        throws FileNotFoundException, UnsupportedEncodingException
-    {
+    private Reader newReader( File file ) throws FileNotFoundException {
         return newReader( new FileInputStream( file ) );
     }
 

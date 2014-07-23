@@ -1040,23 +1040,10 @@ void NestedInterfaceDeclaration() :
 
 void UnmodifiedInterfaceDeclaration() :
 {
-        String sOldClass = _sClass;
-        int oldNcss = _ncss;
-        int oldFunctions = _functions;
-        int oldClasses = _classes;
-
-
-		//Added by REYNAUD Sebastien (LOGICA)
-	 	ObjectMetric metric = new ObjectMetric();
 }
 {
   "interface" Identifier() [TypeParameters()] [ "extends" NameList() ]
   "{" ( InterfaceMemberDeclaration() )* "}"
-        {
-                _functions = oldFunctions;
-                _classes = oldClasses + 1;
-                _sClass = sOldClass;
-        }
 }
 
 void InterfaceMemberDeclaration() :

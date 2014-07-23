@@ -2670,34 +2670,8 @@ int Modifiers():
    _tmpToken = null;
 }
 {
- (
-  LOOKAHEAD(2)
-  (
-   "public"
-  |
-   "static"
-  |
-   "protected"
-  |
-   "private"
-  |
-   "final"
-  |
-   "abstract"
-  |
-   "synchronized"
-  |
-   "native"
-  |
-   "transient"
-  |
-   "volatile"
-  |
-   "strictfp"
-  |
-   Annotation()
-  )
- )*
+ (LOOKAHEAD(2) ("public" | "static" | "protected" | "private" | "final" | "abstract" | "synchronized" |
+   "native" | "transient" | "volatile" | "strictfp" | Annotation() ) )*
 
  {
     return modifiers;
@@ -2729,16 +2703,7 @@ void EnumDeclaration(int modifiers):
         int oldMulti;
 }
 {
-    { Util.debug( "EnumDeclaration().START" ); }
-    "enum" <IDENTIFIER>
-         {
-                if (!_sClass.equals("")) {
-                        _sClass += ".";
-                }
-                _sClass += getToken(0).image;
-                _classLevel ++;
-         }
-  [ ImplementsList(false) ]
+    "enum" <IDENTIFIER> [ ImplementsList(false) ]
 {
         // Chris Povirk
       oldSingle = JavaParserTokenManager._iSingleComments;

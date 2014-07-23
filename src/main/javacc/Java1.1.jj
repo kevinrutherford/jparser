@@ -63,19 +63,8 @@ public class JavaParser implements JavaParserInterface
 
     private int	_nbligne = 0; //Added by REYNAUD Sebastien (LOGICA)
 
-    /**
-     * For each class the number of formal
-     * comments in toplevel methods, constructors, inner
-     * classes, and for the class itself are counted.
-     * The top level comment has to be directly before
-     * the class definition, not before the package or
-     * import statement as it is often seen in source code
-     * examples (at the beginning of your source files you
-     * should instead put your copyright notice).
-     */
     private int    _javadocs   = 0;              // global javadocs
 
-    private List<ObjectMetric> _vClasses = new ArrayList<ObjectMetric>();
     private List<Object[]> _vImports = new ArrayList<Object[]>();
 
     private Token _tmpToken = null;
@@ -85,7 +74,6 @@ public class JavaParser implements JavaParserInterface
         if (sPackage_.equals("")) {
             return ".";
         }
-
         return sPackage_.substring(0, sPackage_.length() - 1);
     }
 
@@ -936,29 +924,6 @@ void ClassDeclaration() :
       }
   }
 
-  // added by SMS
-  {
-      while( tmpToken.specialToken != null ) {
-          if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
-              _javadocs++;
-              if (_bPublic) {
-                  JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
-              }
-              JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
-              break;
-          }  else if ( tmpToken.specialToken.image.startsWith( "/*" ) ) {
-              break;
-          }
-
-          //System.out.println("\n"+tmpToken.specialToken.image);
-
-          tmpToken = tmpToken.specialToken;
-      }
-
-      oldSingle = JavaParserTokenManager._iSingleComments;
-      oldMulti = JavaParserTokenManager._iMultiComments;
-  }
-
   UnmodifiedClassDeclaration()
          {
          }
@@ -993,14 +958,6 @@ void UnmodifiedClassDeclaration() :
                 _ncss++;
                 Util.debug( "_ncss++" );
                 _classLevel--;
-                if (_classLevel == 0) {
-                        metric.name = _sPackage + _sClass;
-                        metric.ncss = _ncss - oldNcss;
-                        metric.functions = _functions - oldFunctions;
-                        metric.classes = _classes - oldClasses;
-                        _vClasses.add( metric );
-                }
-
                 _functions = oldFunctions;
                 _classes = oldClasses + 1;
                 _sClass = sOldClass;
@@ -1191,21 +1148,6 @@ void InterfaceDeclaration() :
     }
 
   UnmodifiedInterfaceDeclaration()
-         {
-             /* removed by SMS
-             while( tmpToken.specialToken != null ) {
-                 if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
-                     _javadocs++;
-                     bClassComment = true;
-                 }
-                 tmpToken = tmpToken.specialToken;
-                 }*/
-             metric = _vClasses.get( _vClasses.size() - 1 );
-             metric.javadocs = _javadocs;
-             metric.singleLn = JavaParserTokenManager._iSingleComments - oldSingle;
-             metric.multiLn = JavaParserTokenManager._iMultiComments - oldMulti;
-            _bPublic = bTemp;
-         }
 }
 
 void NestedInterfaceDeclaration() :
@@ -1295,18 +1237,6 @@ void UnmodifiedInterfaceDeclaration() :
   "interface" Identifier() [TypeParameters()] [ "extends" NameList() ]
   "{" ( InterfaceMemberDeclaration() )* "}"
         {
-                _ncss++;
-                Util.debug( "_ncss++" );
-                _classLevel--;
-                if (_classLevel == 0)
-                {
-                        metric.name = _sPackage + _sClass;
-                        metric.ncss = _ncss - oldNcss;
-                        metric.functions = _functions - oldFunctions;
-                        metric.classes = _classes - oldClasses;
-                        _vClasses.add( metric );
-                }
-
                 _functions = oldFunctions;
                 _classes = oldClasses + 1;
                 _sClass = sOldClass;
@@ -2638,16 +2568,6 @@ void EnumDeclaration(int modifiers):
 }
   EnumBody()
          {
-             _classLevel--;
-             if (_classLevel == 0) {
-                 ObjectMetric metric = new ObjectMetric();
-                 metric.name = _sPackage + _sClass;
-                 metric.ncss = _ncss - oldNcss;
-                 metric.functions = _functions - oldFunctions;
-                 metric.classes = _classes - oldClasses;
-                 metric.javadocs = _javadocs;
-                 _vClasses.add(metric);
-             }
              _functions = oldFunctions;
              _classes = oldClasses + 1;
              _sClass = sOldClass;

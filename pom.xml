@@ -55,7 +55,7 @@
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
             <manifestEntries>
-              <Class-Path>ccl.jar jhbasic.jar</Class-Path>
+              <Class-Path>ccl.jar</Class-Path>
               <Implementation-Version>${project.version} ${buildNumber}</Implementation-Version>
             </manifestEntries>
           </archive>
@@ -171,12 +171,6 @@
       <groupId>javancss</groupId>
       <artifactId>ccl</artifactId>
       <version>29.50</version>
-    </dependency>
-    <dependency>
-      <groupId>javancss</groupId>
-      <artifactId>jhbasic</artifactId>
-      <version>29.50</version>
-      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>ant</groupId>

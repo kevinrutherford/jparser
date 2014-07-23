@@ -1103,24 +1103,6 @@ void NestedInterfaceDeclaration() :
 	}
 
   ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )*
-  {
-    while( tmpToken.specialToken != null ) {
-        if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
-            _javadocs++;
-            if ((_bPublic && bPublic)) {
-                JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
-            }
-            JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
-            break;
-        }  else if ( tmpToken.specialToken.image.startsWith( "/*" ) ) {
-            break;
-        }
-
-        //System.out.println("\n"+tmpToken.specialToken.image);
-
-        tmpToken = tmpToken.specialToken;
-    }
-  }
 
   UnmodifiedInterfaceDeclaration()
   {
@@ -1137,8 +1119,6 @@ void UnmodifiedInterfaceDeclaration() :
 
 		//Added by REYNAUD Sebastien (LOGICA)
 	 	ObjectMetric metric = new ObjectMetric();
-	 	metric.firstLine = JavaParserTokenManager.nbligne;
-		//
 }
 {
         {

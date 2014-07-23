@@ -1032,10 +1032,6 @@ void InterfaceDeclaration() :
 
 void NestedInterfaceDeclaration() :
 {
-  Token tmpToken = null;
-  boolean bTemp = true;
-  boolean bPublic = false;
-	Token myToken=null;
 }
 {
 	( Annotation() )? (Annotation())* ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )*

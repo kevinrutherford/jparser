@@ -6,7 +6,6 @@
   </formats>
 
   <fileSets>
-
     <fileSet>
       <includes>
         <include>pom.xml</include>

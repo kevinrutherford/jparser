@@ -80,7 +80,6 @@ public class JavaParser implements JavaParserInterface
 
     private List<ObjectMetric> _vClasses = new ArrayList<ObjectMetric>();
     private List<Object[]> _vImports = new ArrayList<Object[]>();
-    private PackageMetric _pPackageMetric;
 
     private Token _tmpToken = null;
     private Token _tmpResultToken = null;
@@ -791,23 +790,11 @@ void CompilationUnit() :
 {
         {
                 _sPackage = "";
-                _pPackageMetric = new PackageMetric();      // this object manages the metrics
         }
   [ LOOKAHEAD( ( Annotation() )* "package" ) PackageDeclaration() ]
   ( ImportDeclaration() )*
   ( TypeDeclaration()
-    //{ System.out.println( "Token: " + getToken( 0 ) ); }
     )*
-         {
-             // Package classes and functions are set inside
-             // class and interface bodies.
-             _pPackageMetric.ncss = _ncss;
-
-             // added by SMS
-             _pPackageMetric.javadocsLn = JavaParserTokenManager._iFormalComments;
-             _pPackageMetric.singleLn   = JavaParserTokenManager._iSingleComments;
-             _pPackageMetric.multiLn    = JavaParserTokenManager._iMultiComments;
-         }
   ((PackageDeclaration() | ( ImportDeclaration() ) )
   ( ImportDeclaration() )*
   ( TypeDeclaration() )+ )*
@@ -1010,24 +997,11 @@ void UnmodifiedClassDeclaration() :
                 Util.debug( "_ncss++" );
                 _classLevel--;
                 if (_classLevel == 0) {
-                        //_topLevelClasses++;
-
-                        //ObjectMetric metric = new ObjectMetric(); //Removed by REYNAUD Sebastien (LOGICA)
-
                         metric.name = _sPackage + _sClass;
                         metric.ncss = _ncss - oldNcss;
                         metric.functions = _functions - oldFunctions;
                         metric.classes = _classes - oldClasses;
-                        //Token lastToken = getToken( 0 );
-                        //metric.add( new Integer( lastToken.endLine ) );
-                        //metric.add( new Integer( lastToken.endColumn ) );
-                        //metric.add( new Integer( _javadocs ) );
                         _vClasses.add( metric );
-                        _pPackageMetric.functions += _functions - oldFunctions;
-                        _pPackageMetric.classes++;
-
-                        // added by SMS
-                        _pPackageMetric.javadocs += _javadocs;
                 }
 
                 _functions = oldFunctions;
@@ -1329,22 +1303,11 @@ void UnmodifiedInterfaceDeclaration() :
                 _classLevel--;
                 if (_classLevel == 0)
                 {
-                        //_topLevelClasses++;
-
-                        //ObjectMetric metric = new ObjectMetric(); //Removed by REYNAUD Sebastien (LOGICA)
-
                         metric.name = _sPackage + _sClass;
                         metric.ncss = _ncss - oldNcss;
                         metric.functions = _functions - oldFunctions;
                         metric.classes = _classes - oldClasses;
-                        //metric.add( Util.getConstantObject() );
-                        //metric.add( Util.getConstantObject() );
                         _vClasses.add( metric );
-                        _pPackageMetric.functions += _functions - oldFunctions;
-                        _pPackageMetric.classes++;
-
-                        // added by SMS
-                        _pPackageMetric.javadocs += _javadocs;
                 }
 
                 _functions = oldFunctions;
@@ -2707,27 +2670,13 @@ void EnumDeclaration(int modifiers):
          {
              _classLevel--;
              if (_classLevel == 0) {
-                 //_topLevelClasses++;
                  ObjectMetric metric = new ObjectMetric();
                  metric.name = _sPackage + _sClass;
                  metric.ncss = _ncss - oldNcss;
                  metric.functions = _functions - oldFunctions;
                  metric.classes = _classes - oldClasses;
-                 //Token lastToken = getToken( 0 );
-                 //metric.add( new Integer( lastToken.endLine ) );
-                 //metric.add( new Integer( lastToken.endColumn ) );
                  metric.javadocs = _javadocs;
-
                  _vClasses.add(metric);
-                 _pPackageMetric.functions += _functions - oldFunctions;
-                 _pPackageMetric.classes++;
-
-                 // added by SMS
-                 _pPackageMetric.javadocs += _javadocs;
-                 //_pPackageMetric.javadocsLn += JavaParserTokenManager._iFormalComments - oldFormal;
-                 //_pPackageMetric.singleLn += JavaParserTokenManager._iSingleComments - oldSingle;
-                 //_pPackageMetric.multiLn += Manager._iMultiComments - oldMulti;
-                 //
              }
              _functions = oldFunctions;
              _classes = oldClasses + 1;

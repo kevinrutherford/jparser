@@ -581,16 +581,6 @@ public class Javancss implements Exitable
     private Init _pInit = null;
 
     /**
-     * @deprecated use Javancss(String[]) instead, since the sRcsHeader_ parameter is not useful
-     */
-    @Deprecated
-    public Javancss( String[] asArgs_, String sRcsHeader_ )
-        throws IOException
-    {
-        this( asArgs_ );
-    }
-
-    /**
      * This is the constructor used in the main routine in
      * javancss.Main.
      * Other constructors might be helpful to use Javancss out

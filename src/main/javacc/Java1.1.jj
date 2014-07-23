@@ -78,18 +78,12 @@ public class JavaParser implements JavaParserInterface
     private int    _javadocs   = 0;              // global javadocs
     private List<FunctionMetric> _vFunctions = new ArrayList<FunctionMetric>();   // holds the statistics for each method
 
-    /**
-     * Metrics for each class/interface are stored in this
-     * vector.
-     */
     private List<ObjectMetric> _vClasses = new ArrayList<ObjectMetric>();
     private List<Object[]> _vImports = new ArrayList<Object[]>();
-    private Object[] _aoPackage = null;
     private Map<String, PackageMetric> _htPackage = new HashMap<String, PackageMetric>();
     private PackageMetric _pPackageMetric;
 
     private Token _tmpToken = null;
-    /** Argh, too much of a state machine. */
     private Token _tmpResultToken = null;
 
     private String _formatPackage(String sPackage_) {
@@ -819,46 +813,10 @@ void CompilationUnit() :
              _htPackage.put(_formatPackage(_sPackage),
                             _pPackageMetric);
          }
-  (
-  {
-      oldNcss = _ncss;
-      _sPackage = "";
-      _pPackageMetric = new PackageMetric();
-
-      // added by SMS
-      oldFormal = JavaParserTokenManager._iFormalComments;
-      oldSingle = JavaParserTokenManager._iSingleComments;
-      oldMulti  = JavaParserTokenManager._iMultiComments;
-  }
-  (PackageDeclaration()
-   |
-   ( ImportDeclaration() )
-   )
+  ((PackageDeclaration() | ( ImportDeclaration() ) )
   ( ImportDeclaration() )*
-  ( TypeDeclaration() )+
-  {
-      // Package classes and functions are set inside
-      // class and interface bodies.
-      _pPackageMetric.ncss = _ncss - oldNcss;
-
-      // added by SMS
-      _pPackageMetric.javadocsLn = JavaParserTokenManager._iFormalComments - oldFormal;
-      _pPackageMetric.singleLn   = JavaParserTokenManager._iSingleComments - oldSingle;
-      _pPackageMetric.multiLn    = JavaParserTokenManager._iMultiComments  - oldMulti;
-      //
-
-      PackageMetric pckmPrevious = _htPackage.get(_formatPackage(_sPackage));
-      _pPackageMetric.add(pckmPrevious);
-      _htPackage.put(_formatPackage(_sPackage),
-                     _pPackageMetric);
-  }
-  )*
+  ( TypeDeclaration() )+ )*
   <EOF>
-         {
-             Token pToken = getToken(1);
-             _loc = pToken.endLine;
-	     _nbligne = JavaParserTokenManager.nbligne; //Added by REYNAUD Sebastien (LOGICA)
-         }
 }
 
 void ImportUnit() :
@@ -885,18 +843,9 @@ void PackageDeclaration() :
       Token pToken = getToken( 0 );
       beginLine = pToken.beginLine ;
       beginColumn = pToken.beginColumn;
-      _aoPackage = new Object[ 5 ];
   }
-  Name()
+  Name() ";"
   {
-      _aoPackage[ 0 ] = _sName;
-      _aoPackage[ 1 ] = new Integer( beginLine );
-      _aoPackage[ 2 ] = new Integer( beginColumn );
-  }
-  ";"
-  {
-      _aoPackage[ 3 ] = new Integer( getToken( 0 ).endLine );
-      _aoPackage[ 4 ] = new Integer( getToken( 0 ).endColumn );
       _ncss++;
       Util.debug( "_ncss++" );
       _sPackage = _sName + ".";
@@ -910,13 +859,7 @@ void ImportDeclaration() :
     Object[] aoImport = null;
 }
 {
-  "import"
-  {
-      Token pToken = getToken( 0 );
-      beginLine = pToken.beginLine ;
-      beginColumn = pToken.beginColumn;
-  }
-[ "static" ]
+  "import" [ "static" ]
   Name()
   {
       aoImport = new Object[ 5 ];

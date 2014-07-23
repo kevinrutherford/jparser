@@ -45,7 +45,6 @@ public class JavaParser implements JavaParserInterface
     private int     _cyc             = 0;
     private int     _localCases      = 0;
     private String  _sName           = "";    // name of last token
-    private String  _sParameter      = "";
     private String  _sPackage        = "";
     private String  _sClass          = "";
     private String  _sFunction       = "";
@@ -1314,23 +1313,14 @@ void MethodDeclarator() :
                 _sFunction = "." + getToken(1).image;
         }
   Identifier() FormalParameters()
-        {
-                _sFunction += _sParameter;
-        }
-  ( "[" "]" { _sFunction += "[]"; } )*
+  ( "[" "]" )*
 }
 
 void FormalParameters() :
 {}
 {
-        {
-                _sParameter = "(";
-        }
-  "(" [ FormalParameter() { _sParameter += _sName; }
-  ( "," FormalParameter() { _sParameter += "," + _sName; } )* ] ")"
-        {
-                _sParameter += ")";
-        }
+  "(" [ FormalParameter()
+  ( "," FormalParameter() )* ] ")"
 }
 
 void FormalParameter() :
@@ -1415,47 +1405,12 @@ void ConstructorDeclaration() :
                 _sFunction = _sPackage + _sClass + "." + getToken(0).image;
         }
   FormalParameters()
-        {
-                _sFunction += _sParameter;
-                _bReturn = false;
-        }
   [ "throws" NameList() ]
-         //{ System.out.println( "\n\nInside ContructorDeclaration\n" ); }
   "{"
-         //{ System.out.println( "\n\nContructorDeclaration\n" ); }
-//  [ LOOKAHEAD(ExplicitConstructorInvocation()) ExplicitConstructorInvocation() ]
-//  [ LOOKAHEAD(("this" "(") | ([PrimaryExpression() "."]"super" "(")) ExplicitConstructorInvocation() ]
     [ LOOKAHEAD("this" "(") ExplicitConstructorInvocation() ]
     [ LOOKAHEAD([PrimaryExpression() "."]"super" "(") ExplicitConstructorInvocation() ]
-//         [ LOOKAHEAD(2) ExplicitConstructorInvocation() ]
-//         { System.out.println( "\n\nBefore BlockStatement\n" ); }
-
-
-         // added by SMS
-  {
-                while( tmpToken.specialToken != null ) {
-                    if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
-                        _javadocs++;
-                        jvdc++;
-                        if ((bPublic && _bPublic)) {
-                        }
-                        JavaParserTokenManager._iMultiComments -= jvdcLines;
-                        break;
-                    }  else if ( tmpToken.specialToken.image.startsWith( "/*" ) ) {
-                        jvdcLines = 0;
-                        break;
-                    }
-                    tmpToken = tmpToken.specialToken;
-                }
-
-                oldSingle = JavaParserTokenManager._iSingleComments;
-                oldMulti = JavaParserTokenManager._iMultiComments;
-                }
-
     ( BlockStatement() )*
   "}"
-        {
-        }
 }
 
 void ExplicitConstructorInvocation() :

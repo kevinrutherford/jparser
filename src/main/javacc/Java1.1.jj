@@ -39,22 +39,6 @@ public class JavaParser implements JavaParserInterface
     private int _num_branches     = 0;
     private int _num_superclasses = 0;
 
-    private int	_nbligne = 0; //Added by REYNAUD Sebastien (LOGICA)
-
-    private int    _javadocs   = 0;              // global javadocs
-
-    private List<Object[]> _vImports = new ArrayList<Object[]>();
-
-    private Token _tmpToken = null;
-    private Token _tmpResultToken = null;
-
-    private String _formatPackage(String sPackage_) {
-        if (sPackage_.equals("")) {
-            return ".";
-        }
-        return sPackage_.substring(0, sPackage_.length() - 1);
-    }
-
     public void collectFileMetrics(FileMetrics fm) {
       fm.num_dependencies = _num_dependencies;
       fm.num_branches = _num_branches;

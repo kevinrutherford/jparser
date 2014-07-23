@@ -1,45 +1,20 @@
 package javancss;
 
-// import java.awt.event.WindowAdapter;
-// import java.awt.event.WindowEvent;
-// import java.io.File;
-// import java.io.FileInputStream;
-// import java.io.FileNotFoundException;
-// import java.io.FileOutputStream;
-// import java.io.InputStream;
-// import java.io.IOException;
-// import java.io.InputStreamReader;
-// import java.io.OutputStream;
-// import java.io.OutputStreamWriter;
-// import java.io.PrintWriter;
-// import java.io.Reader;
-// import java.io.Writer;
-// import java.util.ArrayList;
-// import java.util.Collections;
-// import java.util.HashMap;
-// import java.util.HashSet;
-// import java.util.Iterator;
-// import java.util.List;
-// import java.util.Map;
-// import java.util.Set;
-
-// import ccl.util.Exitable;
-// import ccl.util.FileUtil;
-// import ccl.util.Init;
-// import ccl.util.Util;
-
-// import javancss.parser.JavaParser;
-// import javancss.parser.JavaParserInterface;
-// import javancss.parser.JavaParserTokenManager;
-// import javancss.parser.TokenMgrError;
-// import javancss.parser.debug.JavaParserDebug;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
+import javancss.parser.JavaParser;
+import javancss.parser.JavaParserInterface;
 
 public class Javancss
 {
     private JavaParserInterface parser = null;
     private FileMetrics _fileMetrics = new FileMetrics();
 
-    public Javancss(String[] argv) throws IOException
+    public Javancss(String[] argv) throws Exception
     {
         try {
             _measureRoot(argv[0]);
@@ -65,11 +40,11 @@ public class Javancss
         _fileMetrics.filename = path;
     }
 
-    private Reader newReader(File file) throws FileNotFoundException {
+    private Reader newReader(File file) throws Exception {
         return new InputStreamReader((new FileInputStream(file)));
     }
 
-    private void printFileStats(Writer w) throws IOException {
+    private void printFileStats(Writer w) throws Exception {
         FileMetrics fm = _fileMetrics;
         w.write("{\n");
         w.write("  \"filename\": \"" + fm.filename);

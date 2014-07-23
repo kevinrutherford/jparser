@@ -75,7 +75,6 @@ public class JavaParser implements JavaParserInterface
      * should instead put your copyright notice).
      */
     private int    _javadocs   = 0;              // global javadocs
-    private List<FunctionMetric> _vFunctions = new ArrayList<FunctionMetric>();   // holds the statistics for each method
 
     private List<ObjectMetric> _vClasses = new ArrayList<ObjectMetric>();
     private List<Object[]> _vImports = new ArrayList<Object[]>();
@@ -1584,7 +1583,6 @@ void MethodDeclaration() :
              functionMetrics.multiLn = 0; //JavaParserTokenManager._iMultiComments - oldMulti;
              //
 
-             _vFunctions.add(functionMetrics);
              _sFunction = sOldFunction;
              _functions = oldFunctions + 1;
              _cyc = oldcyc;

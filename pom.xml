@@ -8,25 +8,6 @@
   <version>1</version>
   <packaging>jar</packaging>
 
-  <developers>
-    <developer>
-      <id>reynaud_seb</id>
-      <name>Sébastien Reynaud</name>
-      <email>sebastien.reynaud@logica.com</email>
-      <organization>Logica</organization>
-      <organizationUrl>http://www.logica.com/</organizationUrl>
-      <timezone>+1</timezone>
-    </developer>
-    <developer>
-      <id>pkofler</id>
-      <name>Peter Kofler</name>
-      <email>peter.kofler@code-cop.org</email>
-      <organization>Code Cop</organization>
-      <organizationUrl>http://www.code-cop.org/</organizationUrl>
-      <timezone>+1</timezone>
-    </developer>
-  </developers>
-
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <maven.compiler.source>1.5</maven.compiler.source>

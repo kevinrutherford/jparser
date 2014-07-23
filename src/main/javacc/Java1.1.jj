@@ -1426,10 +1426,6 @@ void Initializer() :
   [ "static" ] Block()
 }
 
-/*
- * Type, name and expression syntax follows.
- */
-
 void Type() :
 {}
 {
@@ -1477,21 +1473,12 @@ void NameList() :
   )*
 }
 
-/*
- * Expression syntax follows.
- */
-
 void Expression() :
 {
-    //System.out.println( "Expression start" );
 }
 {
-
   LOOKAHEAD( PrimaryExpression() AssignmentOperator() )
-  //{ System.out.println( "Expression" ); }
-  Assignment()
-|
-  ConditionalExpression()
+  Assignment() | ConditionalExpression()
 }
 
 void Assignment() :
@@ -1509,19 +1496,19 @@ void AssignmentOperator() :
 void ConditionalExpression() :
 {}
 {
-  ConditionalOrExpression() [ "?" Expression() ":" ConditionalExpression() { _cyc++; _num_branches++; } ]
+  ConditionalOrExpression() [ "?" Expression() ":" ConditionalExpression() { _num_branches++; } ]
 }
 
 void ConditionalOrExpression() :
 {}
 {
-  ConditionalAndExpression() ( "||" { _cyc++; _num_branches++; } ConditionalAndExpression() )*
+  ConditionalAndExpression() ( "||" { _num_branches++; } ConditionalAndExpression() )*
 }
 
 void ConditionalAndExpression() :
 {}
 {
-  InclusiveOrExpression() ( "&&" { _cyc++; _num_branches++; } InclusiveOrExpression() )*
+  InclusiveOrExpression() ( "&&" { _num_branches++; } InclusiveOrExpression() )*
 }
 
 void InclusiveOrExpression() :
@@ -1542,15 +1529,6 @@ void AndExpression() :
   EqualityExpression() ( "&" EqualityExpression() )*
 }
 
-/* Removed by REYNAUD Sebastien (LOGICA)
-void EqualityExpression() :
-{}
-{
-  InstanceOfExpression() ( ( "==" | "!=" ) InstanceOfExpression() )*
-}
-*/
-
-//Added by REYNAUD Sebastien (LOGICA)
 void EqualityExpression() :
 {}
 {
@@ -1579,13 +1557,7 @@ void RelationalExpression() :
 void ShiftExpression() :
 {}
 {
-
-//  AdditiveExpression() ( ( "<<" | ">>" | ">>>" ) AdditiveExpression() )* //Removed by REYNAUD Sebastien (LOGICA)
-
-//Added by REYNAUD Sebastien (LOGICA)
   AdditiveExpression() ( LOOKAHEAD(3) ( "<<" | (">" ">") (">")? ) AdditiveExpression() )*
-//
-
 }
 
 void AdditiveExpression() :
@@ -1635,9 +1607,6 @@ void UnaryExpressionNotPlusMinus() :
   PostfixExpression()
 }
 
-// This production is to determine lookahead only.  The LOOKAHEAD specifications
-// below are not used, but they are there just to indicate that we know about
-// this.
 void CastLookahead() :
 {}
 {
@@ -1650,7 +1619,6 @@ void CastLookahead() :
   "(" Type() ")" ( "~" | "!" | "(" | Identifier() | "this" | "super" | "new" | Literal() )
 }
 
-// To fix bug Test48.java. Clemens [2000-10-03]
 void PostfixLookahead() :
 {}
 {
@@ -1674,7 +1642,6 @@ void CastExpression() :
 
 void PrimaryExpression() :
 {
-//    { System.out.println( "Before PrimaryExpression" ); }
 }
 {
   PrimaryPrefix() ( LOOKAHEAD(2) PrimarySuffix() )*
@@ -1685,27 +1652,20 @@ void PrimaryPrefix() :
 {
     Literal()
 |
-//    { System.out.println( "PrimaryPrefix: this" ); }
     "this"
-
     (".")? (TypeParameters())? ("new")? (Identifier())?
 |
     LOOKAHEAD(2)
-//    { System.out.println( "Before PrimaryPrefix super." ); }
     "super" (".")? (TypeParameters())? (Identifier())?
 |
-//    { System.out.println( "\n\nBefore PrimaryPrefix (Expression)\n" ); }
     "(" Expression() ")"
 |
     AllocationExpression()
-//    { System.out.println( "PrimaryPrefix After AllocationExpression" ); }
 |
     LOOKAHEAD( ResultType() "." "class" )
-//    { System.out.println( "PrimaryPrefix ResultType" ); }
     ResultType() "." "class"
 |
     Name() [ LOOKAHEAD(3) "." "super" "." Identifier() ]
-//    { System.out.println( "PrimaryPrefix after Name" ); }
 }
 
 void PrimarySuffix() :
@@ -1722,7 +1682,6 @@ void PrimarySuffix() :
 |
   "[" Expression() "]"
 |
-//  { System.out.println( "PrimarySuffix . Identifier()" ); }
   "." Identifier()
 |
   Arguments()
@@ -1732,25 +1691,13 @@ void Literal() :
 {
 }
 {
-  <INTEGER_LITERAL>
-|
-  <FLOATING_POINT_LITERAL>
-|
-  <CHARACTER_LITERAL>
-|
-  <STRING_LITERAL>
-|
-  BooleanLiteral()
-|
-  NullLiteral()
+  <INTEGER_LITERAL> | <FLOATING_POINT_LITERAL> | <CHARACTER_LITERAL> | <STRING_LITERAL> | BooleanLiteral() | NullLiteral()
 }
 
 void BooleanLiteral() :
 {}
 {
-  "true"
-|
-  "false"
+  "true" | "false"
 }
 
 void NullLiteral() :
@@ -1761,7 +1708,6 @@ void NullLiteral() :
 
 void Arguments() :
 {
-// System.out.println( "Arguments start" );
 }
 {
   "(" [ ArgumentList() ] ")"

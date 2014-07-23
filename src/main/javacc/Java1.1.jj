@@ -1877,7 +1877,7 @@ void SwitchStatement() :
 void SwitchLabel() :
 {}
 {
-  "case" Expression() ":" {_num_branches++; }
+  "case" Expression() ":" { _num_branches++; }
 |
   "default" ":"
 }
@@ -1892,14 +1892,13 @@ void WhileStatement() :
 {}
 {
   "while" "(" Expression() ")" Statement()
-        { _ncss++;       Util.debug( "_ncss++" ); }
+        { /*_num_branches++;*/ }
 }
 
 void DoStatement() :
 {}
 {
   "do" Statement() "while" "(" Expression() ")" ";"
-        { _ncss++;       Util.debug( "_ncss++" );}
 }
 
 void ForStatement() :
@@ -1913,7 +1912,6 @@ void ForStatement() :
       [ ForInit() ] ";" [ Expression() ] ";" [ ForUpdate() ]
   )
   ")" Statement()
-        { _ncss++;       Util.debug( "_ncss++" );}
 }
 
 void ForInit() :
@@ -1941,60 +1939,43 @@ void BreakStatement() :
 {}
 {
   "break" [ Identifier() ] ";"
-        { _ncss++;       Util.debug( "_ncss++" );}
 }
 
 void ContinueStatement() :
 {}
 {
   "continue" [ Identifier() ] ";"
-        { _ncss++;       Util.debug( "_ncss++" );}
 }
 
 void ReturnStatement() :
 {}
 {
   "return" [ Expression() ] ";"
-        {
-                _ncss++;
-                Util.debug( "_ncss++" );
-                _bReturn = true;
-        }
 }
 
 void ThrowStatement() :
 {}
 {
   "throw" Expression() ";"
-        {
-                _ncss++;
-                Util.debug( "_ncss++" );
-        }
 }
 
 void SynchronizedStatement() :
 {}
 {
   "synchronized" "(" Expression() ")" Block()
-        { _ncss++;       Util.debug( "_ncss++" ); }
 }
 
 void TryStatement() :
-/*
- * Semantic check required here to make sure that at least one
- * finally/catch is present.
- */
 {}
 {
   TryBlock()
-  ( "catch" "(" CatchParameter() ")" Block() { _ncss++; _num_branches++;      Util.debug( "_ncss++" ); _cyc++; } )*
-  [ "finally" Block() { _ncss++;       Util.debug( "_ncss++" );} ]
+  ( "catch" "(" CatchParameter() ")" Block() { _num_branches++; } )*
+  [ "finally" Block() ]
 }
 
 void TryBlock() :
 {}
 {
-//  LOOKAHEAD(2) "try" "(" ( LocalVariableDeclaration() [ ";" ] ")" | ")" ) Block()
   LOOKAHEAD(2) "try" "(" ( TryWithResources() ")" | ")" ) Block()
   |
   "try" Block()
@@ -2003,7 +1984,6 @@ void TryBlock() :
 void TryWithResources() :
 {}
 {
-//  LocalVariableDeclaration() [ ";" ]
   LocalVariableDeclaration() ( ";" LocalVariableDeclaration() )*
 }
 

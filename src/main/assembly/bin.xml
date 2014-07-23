@@ -12,18 +12,10 @@
         <include>COPYING</include>
         <include>pom.xml</include>
         <include>README.TXT</include>
-        <include>bin/javancss.bat</include>
         <include>lib/</include>
         <include>src/</include>
         <include>xslt/</include>
       </includes>
-    </fileSet>
-
-    <fileSet>
-      <includes>
-        <include>bin/javancss</include>
-      </includes>
-      <fileMode>755</fileMode>
     </fileSet>
   </fileSets>
 

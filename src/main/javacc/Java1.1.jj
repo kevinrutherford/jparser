@@ -856,22 +856,11 @@ void ImportDeclaration() :
 {
     int beginLine = 1;
     int beginColumn = 1;
-    Object[] aoImport = null;
 }
 {
   "import" [ "static" ]
-  Name()
+  Name() [ "." "*" ] ";"
   {
-      aoImport = new Object[ 5 ];
-      aoImport[ 0 ] = _sName;
-      aoImport[ 1 ] = new Integer( beginLine );
-      aoImport[ 2 ] = new Integer( beginColumn );
-  }
-  [ "." "*" { aoImport[ 0 ] = aoImport[ 0 ].toString() + ".*"; } ] ";"
-  {
-      aoImport[ 3 ] = new Integer( getToken( 0 ).endLine );
-      aoImport[ 4 ] = new Integer( getToken( 0 ).endColumn );
-      _vImports.add( aoImport );
       _ncss++;
       _num_dependencies++;
       Util.debug( "_ncss++" );

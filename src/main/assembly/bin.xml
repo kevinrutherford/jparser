@@ -9,9 +9,7 @@
 
     <fileSet>
       <includes>
-        <include>COPYING</include>
         <include>pom.xml</include>
-        <include>README.TXT</include>
         <include>lib/</include>
         <include>src/</include>
         <include>xslt/</include>

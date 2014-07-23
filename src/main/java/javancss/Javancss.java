@@ -571,7 +571,7 @@ public class Javancss implements Exitable
     }
 
     private void printFileStats(Writer w) throws IOException {
-        FileMetrics fm = getFileMetrics();
+        FileMetrics fm = _fileMetrics;
         w.write("{\n");
         w.write("  \"filename\": \"" + fm.filename);
         w.write("\",\n  \"num_branches\": " + fm.num_branches);

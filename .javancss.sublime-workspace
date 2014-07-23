@@ -159,7 +159,7 @@
 			"file": "src/main/java/javancss/Javancss.java",
 			"settings":
 			{
-				"buffer_size": 20797,
+				"buffer_size": 17464,
 				"line_ending": "Unix"
 			}
 		},
@@ -184,6 +184,46 @@
 			"settings":
 			{
 				"buffer_size": 694,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pom.xml",
+			"settings":
+			{
+				"buffer_size": 11499,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "target/antrun/build-main.xml",
+			"settings":
+			{
+				"buffer_size": 450,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/main/assembly/bin.xml",
+			"settings":
+			{
+				"buffer_size": 780,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".gitignore",
+			"settings":
+			{
+				"buffer_size": 8,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/main/java/javancss/Main.java",
+			"settings":
+			{
+				"buffer_size": 684,
 				"line_ending": "Unix"
 			}
 		}
@@ -216,6 +256,8 @@
 	},
 	"file_history":
 	[
+		"/home/kevin/Working/git/javancss/src/main/java/javancss/JavancssAntTask.java",
+		"/home/kevin/Working/git/javancss/src/main/assembly/bin.xml",
 		"/home/kevin/Working/git/javancss/src/test/java/javancss/test/XmlFormatterTest.java",
 		"/home/kevin/Working/git/javancss/target/generated-sources/javacc/javancss/parser/JavaParserInterface.java",
 		"/home/kevin/Working/git/javancss/src/main/javacc/debug/JavaDebug1.1.jj",
@@ -352,9 +394,24 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"getFileMetrics",
+			"printFileStats",
+			"getFormatter",
+			"printFileStats",
+			"newReader",
+			"Javancss",
+			"buildn",
+			"Init",
+			"clean",
+			"test",
+			"site",
+			"svn",
+			"bin",
+			"site",
+			"test",
 			"extends",
 			"_num_super",
 			"extends",
@@ -472,7 +529,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -521,15 +578,15 @@
 					"file": "src/main/java/javancss/Javancss.java",
 					"settings":
 					{
-						"buffer_size": 20797,
+						"buffer_size": 17464,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5616,
-								5616
+								0,
+								0
 							]
 						],
 						"settings":
@@ -539,7 +596,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2880.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -556,8 +613,8 @@
 						"selection":
 						[
 							[
-								14802,
-								14802
+								15010,
+								15010
 							]
 						],
 						"settings":
@@ -567,7 +624,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5810.0,
+						"translation.y": 5487.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -614,6 +671,142 @@
 							[
 								640,
 								640
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "pom.xml",
+					"settings":
+					{
+						"buffer_size": 11499,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6546,
+								6546
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2931.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "target/antrun/build-main.xml",
+					"settings":
+					{
+						"buffer_size": 450,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/main/assembly/bin.xml",
+					"settings":
+					{
+						"buffer_size": 780,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								527,
+								527
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": ".gitignore",
+					"settings":
+					{
+						"buffer_size": 8,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/main/java/javancss/Main.java",
+					"settings":
+					{
+						"buffer_size": 684,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								537,
+								537
 							]
 						],
 						"settings":

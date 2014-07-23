@@ -1946,8 +1946,7 @@ void ConstructorDeclaration() :
                     if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
                         _javadocs++;
                         jvdc++;
-                        if ((bPublic && _bPublic) || _bPrivate) {
-                            Util.debug( "_jvdc++" );
+                        if ((bPublic && _bPublic)) {
                             _jvdc++;
                             jvdcLines = JavaParserTokenManager._iMultiCommentsLast;
                             _jvdcLines += jvdcLines;
@@ -1959,63 +1958,16 @@ void ConstructorDeclaration() :
                         jvdcLines = 0;
                         break;
                     }
-
-                    //System.out.println("\n"+tmpToken.specialToken.image);
-
                     tmpToken = tmpToken.specialToken;
                 }
-
 
                 oldSingle = JavaParserTokenManager._iSingleComments;
                 oldMulti = JavaParserTokenManager._iMultiComments;
                 }
 
     ( BlockStatement() )*
-         //{ System.out.println( "\n\nAfter BlockStatement\n" ); }
   "}"
-                        // this is just because of a nonconformance to the JLS
-                        // in java/net/Socket.java at line 148 column 6 as of
-                        // sun jdk 1.1.5
-                        //[ ";" ]
         {
-
-            /*
-                while( tmpToken.specialToken != null ) {
-                    if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
-                        jvdc++;
-                        _javadocs++;
-                    }
-                    tmpToken = tmpToken.specialToken;
-                }
-            */
-                if (_bReturn) {
-                        _cyc--;
-                }
-                _ncss++;
-                Util.debug( "_ncss++" );
-
-                //FunctionMetric functionMetrics = new FunctionMetric(); //Removed by REYNAUD Sebastien (LOGICA)
-
-                functionMetrics.name = _sFunction;
-                functionMetrics.ncss = _ncss - oldNcss;
-                functionMetrics.ccn = _cyc;
-                functionMetrics.javadocs = jvdc;
-
-                // added by SMS
-                functionMetrics.javadocsLn = jvdcLines;
-                functionMetrics.singleLn = JavaParserTokenManager._iSingleComments - oldSingle;
-                functionMetrics.multiLn = JavaParserTokenManager._iMultiComments - oldMulti;
-                //
-
-                _vFunctions.add(functionMetrics);
-                _sFunction = sOldFunction;
-                _functions = oldFunctions + 1;
-                _cyc = oldcyc;
-                _bReturn = bOldReturn;
-
-		//Added by REYNAUD Sebastien (LOGICA)
-		_tmpToken = null;
-		//
         }
 }
 

@@ -234,116 +234,18 @@ public class Javancss implements Exitable
         Collections.sort( _vPackageMetrics );
     }
 
-    public void setSourceFile( File javaSourceFile_ )
-    {
-        _sJavaSourceFile = javaSourceFile_;
-        _vJavaSourceFiles = new ArrayList<File>();
-        _vJavaSourceFiles.add( javaSourceFile_ );
-    }
-
-    /**
-     * recursively adds *.java files
-     * @param dir the base directory to search
-     * @param v the list of file to add found files to
-     */
-    private static void _addJavaFiles( File dir, List<File> v )
-    {
-        File[] files = dir.listFiles();
-        if ( files == null || files.length == 0 )
-        {
-            return;
-        }
-
-        for ( int i = 0; i < files.length; i++ )
-        {
-            File newFile = files[i];
-            if ( newFile.isDirectory() )
-            {
-                // Recurse!!!
-                _addJavaFiles( newFile, v );
-            }
-            else
-            {
-                if ( newFile.getName().endsWith( ".java" ) )
-                {
-                    v.add( newFile );
-                }
-            }
-        }
-    }
-
-    private List<File> findFiles( List<String> filenames, boolean recursive )
-        throws IOException
-    {
-        if ( Util.isDebug() )
-        {
-            Util.debug( "filenames: " + Util.toString( filenames ) );
-        }
+    private List<File> findFiles( List<String> filenames, boolean recursive ) throws IOException {
         if ( filenames.size() == 0 )
-        {
-            if ( recursive )
-            {
-                // If no files then add current directory!
-                filenames.add( "." );
-            }
-            else
-            {
-                return null;
-            }
-        }
+            return null;
 
         Set<String> _processedAtFiles = new HashSet<String>();
         List<File> newFiles = new ArrayList<File>();
         for ( String filename : filenames )
         {
-            // if the file specifies other files...
-            if ( filename.startsWith( "@" ) )
-            {
-                filename = filename.substring( 1 );
-                if ( filename.length() > 1 )
-                {
-                    filename = FileUtil.normalizeFileName( filename );
-                    if ( _processedAtFiles.add( filename ) )
-                    {
-                        String sJavaSourceFileNames = null;
-                        try
-                        {
-                            sJavaSourceFileNames = FileUtil.readFile( filename );
-                        }
-                        catch( IOException pIOException )
-                        {
-                            _sErrorMessage = "File Read Error: " + filename;
-                            _thrwError = pIOException;
-                            throw pIOException;
-                        }
-                        List<String> vTheseJavaSourceFiles = Util.stringToLines( sJavaSourceFileNames );
-                        for ( String name : vTheseJavaSourceFiles )
-                        {
-                            newFiles.add( new File( name ) );
-                        }
-                    }
-                }
-            }
-            else
-            {
-                filename = FileUtil.normalizeFileName( filename );
-                File file = new File( filename );
-                if ( file.isDirectory() )
-                {
-                    _addJavaFiles( file, newFiles );
-                }
-                else
-                {
-                    newFiles.add( file );
-                }
-            }
+            filename = FileUtil.normalizeFileName( filename );
+            File file = new File( filename );
+            newFiles.add( file );
         }
-
-        if ( Util.isDebug() )
-        {
-            Util.debug( "resolved filenames: " + Util.toString( newFiles ) );
-        }
-
         return newFiles;
     }
 
@@ -392,11 +294,6 @@ public class Javancss implements Exitable
     public int getNcss()
     {
         return _ncss;
-    }
-
-    public FileMetrics getFileMetrics()
-    {
-        return _fileMetrics;
     }
 
     public String getLastErrorMessage()

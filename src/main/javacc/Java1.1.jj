@@ -1715,7 +1715,6 @@ void Arguments() :
 
 void ArgumentList() :
 {
-// System.out.println( "ArgumentList start" );
 }
 {
   Expression() ( "," Expression() )*
@@ -1724,7 +1723,6 @@ void ArgumentList() :
 void AllocationExpression() :
 {
         String sOldClass = _sClass;
-        //int oldNcss = _ncss;
         int oldFunctions = _functions;
         int oldClasses = _classes;
         String sName;
@@ -1735,7 +1733,6 @@ void AllocationExpression() :
   "new" PrimitiveType() ArrayDimsAndInits()
 |
          "new" Name()
-                        // this is all for anonymous classes
                         { sName = _sName; }
   [TypeArguments()]
       (
@@ -1743,18 +1740,8 @@ void AllocationExpression() :
     |
       Arguments()
                 [
-                 {
-                         if (!_sClass.equals("")) {
-                                 _sClass += ".";
-                         }
-                         /*_sClass += sName;*/
-                         _sClass += sName + "$" + _anonClassCount ;
-
-                         _classLevel ++;
-                 }
                         ClassBody()
                         {
-                                _classLevel--;
                                 _functions = oldFunctions;
                                 _classes = oldClasses + 1;
                                 _sClass = sOldClass;
@@ -1763,10 +1750,6 @@ void AllocationExpression() :
     )
 }
 
-/*
- * The third LOOKAHEAD specification below is to parse to PrimarySuffix
- * if there is an expression between the "[...]".
- */
 void ArrayDimsAndInits() :
 {}
 {
@@ -1776,15 +1759,8 @@ void ArrayDimsAndInits() :
   ( "[" "]" )+ ArrayInitializer()
 }
 
-
-/*
- * Statement syntax follows.
- */
-
 void Statement() :
 {
-        _bReturn = false;
-        //{ System.out.println( "\n\nBefore Statement\n" ); }
 }
 {
   LOOKAHEAD(2)
@@ -1797,24 +1773,17 @@ void Statement() :
 |
   EmptyStatement()
 |
-         //{ System.out.println( "\n\nBefore Statement Expression\n" ); }
   StatementExpression() ";"
-        { _ncss++;       Util.debug( "_ncss++" );}
-  //{ System.out.println( "\n\nHit Statement Expression\n" ); }
 |
   SwitchStatement()
 |
-  IfStatement()
-        { _cyc++; _num_branches++; }
+  IfStatement() { _num_branches++; }
 |
-  WhileStatement()
-        { _cyc++; _num_branches++; }
+  WhileStatement() { _num_branches++; }
 |
-  DoStatement()
-        { _cyc++; _num_branches++; }
+  DoStatement() { _num_branches++; }
 |
-  ForStatement()
-        { _cyc++; _num_branches++; }
+  ForStatement() { _num_branches++; }
 |
   BreakStatement()
 |
@@ -1833,12 +1802,10 @@ void LabeledStatement() :
 {}
 {
   Identifier() ":" Statement()
-        { _ncss++;       Util.debug( "_ncss++" );}
 }
 
 void AssertStatementLookahead() :
 {
-
 }
 {
   <ASSERT>
@@ -1853,27 +1820,20 @@ void AssertStatement() :
   Expression()
   [ ":" Expression() ]
   ";"
-  { _ncss++;       Util.debug( "_ncss++" );}
 }
 
 void Block() :
 {}
 {
   "{"
-         //{_ncss++; Util.debug( "Block()._ncss++" );
-         //}
    ( BlockStatement() )* "}"
 }
 
 void BlockStatement() :
 {}
 {
-    //LOOKAHEAD([ "final" ] FieldTypeLookahead() Identifier())
   LOOKAHEAD( Modifiers() Type() ("enum"|<IDENTIFIER>) (";"|"="|","|"[""]") )
   LocalVariableDeclaration() ";"
-        {
-                _ncss++;       Util.debug( "_ncss++" );
-        }
 |
   Statement()
 |
@@ -1882,11 +1842,6 @@ void BlockStatement() :
   UnmodifiedInterfaceDeclaration()
 }
 
-/*void LocalVariableDeclaration() :
-{}
-{
-  [ "final" ] Type() VariableDeclarator() ( "," VariableDeclarator() )*
-}*/
 void LocalVariableDeclaration():
 {}
 {
@@ -1901,69 +1856,36 @@ void EmptyStatement() :
 }
 
 void StatementExpression() :
-/*
- * The last expansion of this production accepts more than the legal
- * Java expansions for StatementExpression.  This expansion does not
- * use PostfixExpression for performance reasons.
- */
 {
-    //{ System.out.println( "\n\nBefore StatementExpression\n" ); }
 }
 {
   PreIncrementExpression()
 |
   PreDecrementExpression()
 |
-  PrimaryExpression()
-  [
-    "++"
-  |
-    "--"
-  |
-    AssignmentOperator() Expression()
-  ]
+  PrimaryExpression() [ "++" | "--" | AssignmentOperator() Expression() ]
 }
 
 void SwitchStatement() :
 {}
 {
-        {
-                _localCases = 0;
-        }
   "switch" "(" Expression() ")" "{"
     ( SwitchLabel() ( BlockStatement() )* )*
   "}"
-        { _ncss++;       Util.debug( "_ncss++" );}
 }
 
 void SwitchLabel() :
 {}
 {
-  "case" Expression() ":"
-        {
-                _ncss++;
-                Util.debug( "_ncss++" );
-                _localCases++;
-                _cyc++;
-                _num_branches++;
-        }
+  "case" Expression() ":" {_num_branches++; }
 |
   "default" ":"
-        {
-                _ncss++;       Util.debug( "_ncss++" );
-        }
 }
 
 void IfStatement() :
-/*
- * The disambiguating algorithm of JavaCC automatically binds dangling
- * else's to the innermost if statement.  The LOOKAHEAD specification
- * is to tell JavaCC that we know what we are doing.
- */
 {}
 {
-  "if" "(" Expression() ")" Statement() [ LOOKAHEAD(1) "else" { _ncss++;       Util.debug( "_ncss++" );} Statement() ]
-        { _ncss++;       Util.debug( "_ncss++" );}
+  "if" "(" Expression() ")" Statement() [ LOOKAHEAD(1) "else" Statement() ]
 }
 
 void WhileStatement() :

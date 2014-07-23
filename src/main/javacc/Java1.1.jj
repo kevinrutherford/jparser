@@ -2673,61 +2673,27 @@ int Modifiers():
  (
   LOOKAHEAD(2)
   (
-   "public" { modifiers |= ModifierSet.PUBLIC;
-      if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "public"
   |
-   "static" { modifiers |= ModifierSet.STATIC;       if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "static"
   |
-   "protected" { modifiers |= ModifierSet.PROTECTED;       if ( _tmpToken == null ) {
-       _tmpToken = getToken( 0 );
-      }
-}
+   "protected"
   |
-   "private" { modifiers |= ModifierSet.PRIVATE;       if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "private"
   |
-   "final" { modifiers |= ModifierSet.FINAL;       if ( _tmpToken == null ) {
-       _tmpToken = getToken( 0 );
-      }
-}
+   "final"
   |
-   "abstract" { modifiers |= ModifierSet.ABSTRACT;       if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "abstract"
   |
-   "synchronized" { modifiers |= ModifierSet.SYNCHRONIZED;       if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "synchronized"
   |
-   "native" { modifiers |= ModifierSet.NATIVE;       if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "native"
   |
-   "transient" { modifiers |= ModifierSet.TRANSIENT;       if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "transient"
   |
-   "volatile" { modifiers |= ModifierSet.VOLATILE;       if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "volatile"
   |
-   "strictfp" { modifiers |= ModifierSet.STRICTFP;       if ( _tmpToken == null ) {
-          _tmpToken = getToken( 0 );
-      }
-}
+   "strictfp"
   |
    Annotation()
   )

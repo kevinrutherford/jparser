@@ -80,7 +80,6 @@ public class JavaParser implements JavaParserInterface
 
     private List<ObjectMetric> _vClasses = new ArrayList<ObjectMetric>();
     private List<Object[]> _vImports = new ArrayList<Object[]>();
-    private Map<String, PackageMetric> _htPackage = new HashMap<String, PackageMetric>();
     private PackageMetric _pPackageMetric;
 
     private Token _tmpToken = null;
@@ -808,10 +807,6 @@ void CompilationUnit() :
              _pPackageMetric.javadocsLn = JavaParserTokenManager._iFormalComments;
              _pPackageMetric.singleLn   = JavaParserTokenManager._iSingleComments;
              _pPackageMetric.multiLn    = JavaParserTokenManager._iMultiComments;
-             //
-
-             _htPackage.put(_formatPackage(_sPackage),
-                            _pPackageMetric);
          }
   ((PackageDeclaration() | ( ImportDeclaration() ) )
   ( ImportDeclaration() )*
@@ -2705,7 +2700,6 @@ void EnumDeclaration(int modifiers):
 {
     "enum" <IDENTIFIER> [ ImplementsList(false) ]
 {
-        // Chris Povirk
       oldSingle = JavaParserTokenManager._iSingleComments;
       oldMulti = JavaParserTokenManager._iMultiComments;
 }

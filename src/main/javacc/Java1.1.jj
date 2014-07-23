@@ -991,43 +991,11 @@ void MethodDeclarationLookahead() :
 
 void InterfaceDeclaration() :
 {
-  Token tmpToken = null;
-  _javadocs = 0;
-  ObjectMetric metric = null;
-  int oldSingle;
-  int oldMulti;
-  boolean bTemp = true;
-	Token myToken=null;
 }
 {
-	(
-	{myToken = getToken(1);}
-	Annotation()
-	{tmpToken = myToken;}
-	)?
-
+	( Annotation() )?
 	(Annotation())*
-
-  ( "strictfp" | "abstract"
-  {
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 0 );
-      }
-  }
- | "public"
-  {
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 0 );
-      }
-  }
- )*
-  {
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 1 );
-      }
-  }
-
-  UnmodifiedInterfaceDeclaration()
+  ( "strictfp" | "abstract" | "public" )* UnmodifiedInterfaceDeclaration()
 }
 
 void NestedInterfaceDeclaration() :

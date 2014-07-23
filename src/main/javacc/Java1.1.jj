@@ -9,7 +9,6 @@ package javancss.parser;
 
 import java.util.*;
 import ccl.util.Util;
-import javancss.FunctionMetric;
 import javancss.ObjectMetric;
 import javancss.FileMetrics;
 

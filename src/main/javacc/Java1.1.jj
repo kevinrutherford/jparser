@@ -913,34 +913,13 @@ void ClassBody() :
 }
 
 void NestedClassDeclaration() :
-
 {
-    Token tmpToken = null;
-    boolean bTemp = true;
-    boolean bPublic = false;
-  Token myToken = null;
 }
 {
-	(
-	{myToken = getToken(1);}
-	Annotation()
-	{tmpToken = myToken;}
-	)?
-
+	(Annotation())?
 	(Annotation())*
-
-	{
-	if(tmpToken==null)
-	{
-		tmpToken = getToken( 1 );
-	}
-	}
-
   ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )*
-
   UnmodifiedClassDeclaration()
-  {
-  }
 }
 
 void ClassBodyDeclaration() :
@@ -980,7 +959,6 @@ void ClassBodyDeclaration() :
   FieldDeclaration()
 }
 
-// This production is to determine lookahead only.
 void MethodDeclarationLookahead() :
 {}
 {

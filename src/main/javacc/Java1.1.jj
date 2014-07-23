@@ -29,11 +29,6 @@ import javancss.FileMetrics;
  *
  * @author    Sriram Sankar (original JavaCC grammar)
  *            , Chr. Clemens Lee <clemens@kclee.com> (JavaNCSS metrics)
- *            , additional counting of javadoc comments done by
- *              Emilio Gongora, <emilio@sms.nl> and
- *              Guillermo Rodriguez, <guille@sms.nl>.
- *            Anonymous class count patch by Vesa Karvonnen, <vesa_karvonen@hotmail.com> 2002-10-30.
- * @version   2000-01-31 $Id: Java1.1.jj 301 2014-07-12 13:32:33Z pkofler $
  */
 public class JavaParser implements JavaParserInterface
 {
@@ -49,7 +44,6 @@ public class JavaParser implements JavaParserInterface
     private String  _sClass          = "";
     private String  _sFunction       = "";
     private int     _functions       = 0;     // number of functions in this class
-    //private int     _topLevelClasses = 0;
     private int     _classes         = 0;
     private int     _classLevel      = 0;
     private int     _anonClassCount  = 1;
@@ -882,50 +876,9 @@ void ClassDeclaration() :
 }
 {
 	( Annotation() )?
-
 	(Annotation())*
-
-  ( "abstract"
-  {
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 0 );
-      }
-  }
- | "final"
-  {
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 0 );
-      }
-  }
- | "public"
-  {
-      _bPublic = true;         // added by SMS
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 0 );
-      }
-  }
- | "synchronized"
-  {
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 0 );
-      }
-  }
- | "strictfp"
-  {
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 0 );
-      }
-  }
- )*
-  {
-      if ( tmpToken == null ) {
-          tmpToken = getToken( 1 );
-      }
-  }
-
+  ( "abstract" | "final" | "public" | "synchronized" | "strictfp" )*
   UnmodifiedClassDeclaration()
-         {
-         }
 }
 
 void UnmodifiedClassDeclaration() :

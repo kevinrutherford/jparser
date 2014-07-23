@@ -938,10 +938,6 @@ void UnmodifiedClassDeclaration() :
 
 	//Added by REYNAUD Sebastien (LOGICA)
 	ObjectMetric metric = new ObjectMetric();
-	if (_classLevel == 0) {
-		metric.firstLine = JavaParserTokenManager.nbligne;
-	}
-	//
 }
 {
         {
@@ -949,15 +945,11 @@ void UnmodifiedClassDeclaration() :
                         _sClass += ".";
                 }
                 _sClass += getToken(2).image;
-                _classLevel ++;
         }
         Modifiers()
   "class" Identifier() [TypeParameters()] [ "extends" Name() [TypeArguments()] ("." Name() [TypeArguments()] )* {_num_superclasses++;} ] [ "implements" NameList() ]
   ClassBody()
         {
-                _ncss++;
-                Util.debug( "_ncss++" );
-                _classLevel--;
                 _functions = oldFunctions;
                 _classes = oldClasses + 1;
                 _sClass = sOldClass;
@@ -973,19 +965,12 @@ void ClassBody() :
 void NestedClassDeclaration() :
 
 {
-    // added by SMS
     Token tmpToken = null;
-
     boolean bTemp = _bPublic;
-    _bPublic = false;
     boolean bPublic = false;
-
-	//Added by REYNAUD Sebastien (LOGICA)
-	Token myToken = null;
-	//
+  Token myToken = null;
 }
 {
-	//Added by REYNAUD Sebastien (LOGICA)
 	(
 	{myToken = getToken(1);}
 	Annotation()
@@ -1002,24 +987,6 @@ void NestedClassDeclaration() :
 	}
 
   ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )*
-  {
-    while( tmpToken.specialToken != null ) {
-        if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
-            _javadocs++;
-            if ((_bPublic && bPublic)) {
-                JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
-            }
-            JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
-            break;
-        }  else if ( tmpToken.specialToken.image.startsWith( "/*" ) ) {
-            break;
-        }
-
-        //System.out.println("\n"+tmpToken.specialToken.image);
-
-        tmpToken = tmpToken.specialToken;
-    }
-  }
 
   UnmodifiedClassDeclaration()
   {

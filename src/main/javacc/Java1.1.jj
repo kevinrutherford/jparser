@@ -1318,7 +1318,6 @@ void WhileStatement() :
 {}
 {
   "while" "(" Expression() ")" Statement()
-        { /*_num_branches++;*/ }
 }
 
 void DoStatement() :

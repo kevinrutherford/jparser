@@ -1657,24 +1657,19 @@ void TypeArguments():
 void TypeArgument():
 {}
 {
-   ReferenceType()
- |
-   "?" [ WildcardBounds() ]
-
+  ReferenceType() | "?" [ WildcardBounds() ]
 }
 
 void ReferenceType():
 {}
 {
-   PrimitiveType() ( LOOKAHEAD(2) "[" "]" )+
-  |
-   ( ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
+  PrimitiveType() ( LOOKAHEAD(2) "[" "]" )+ | ( ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
 }
 
 void WildcardBounds():
 {}
 {
-   "extends" ReferenceType() | "super" ReferenceType()
+  "extends" ReferenceType() | "super" ReferenceType()
 }
 
 void FieldDeclaration15():
@@ -1687,24 +1682,6 @@ void MethodDeclaration15():
 {}
 {
     MethodDeclaration()
-}
-
-void MethodDeclarator15():
-{}
-{
-  <IDENTIFIER> FormalParameters() ( "[" "]" )*
-}
-
-void FormalParameters15():
-{}
-{
-  "(" [ FormalParameter15() ( "," FormalParameter15() )* ] ")"
-}
-
-void FormalParameter15():
-{}
-{
-  Modifiers() Type() [ "..." ] VariableDeclaratorId()
 }
 
 void MemberSelector():

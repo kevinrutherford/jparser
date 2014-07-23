@@ -1598,10 +1598,7 @@ void TypeBound():
 void TypeArguments():
 {}
 {
-	"<" TypeArgument() ( LOOKAHEAD(2) "," TypeArgument() )* ">"
-    |
-    "<>"
-
+	"<" TypeArgument() ( LOOKAHEAD(2) "," TypeArgument() )* ">" | "<>"
 }
 
 void TypeArgument():

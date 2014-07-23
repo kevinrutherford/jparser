@@ -1990,12 +1990,8 @@ void TryWithResources() :
 void Identifier() :
 {}
 {
-    <IDENTIFIER>
-|
-    <ASSERT>
+    <IDENTIFIER> | <ASSERT>
 }
-
-/* Annotation syntax follows. */
 
 void Annotation():
 {}
@@ -2062,9 +2058,6 @@ void  MemberValueArrayInitializer():
  =================================================
 */
 
-/* Annotation Types. */
-
-//Added by REYNAUD Sebastien (LOGICA)
 void CreationAnnotation():
 {}
 {
@@ -2081,7 +2074,7 @@ void AnnotationTypeDeclaration(int modifiers):
 void AnnotationTypeBody():
 {}
 {
-  "{" {_ncss++;       Util.debug( "_ncss++" );} ( AnnotationTypeMemberDeclaration() )* "}"
+  "{" ( AnnotationTypeMemberDeclaration() )* "}"
 }
 
 void AnnotationTypeMemberDeclaration():
@@ -2093,11 +2086,6 @@ void AnnotationTypeMemberDeclaration():
  (
    LOOKAHEAD(Type() <IDENTIFIER> "(")
    Type() <IDENTIFIER> "(" ")" [ DefaultValue() ] ";"
-        {
-            _ncss++;
-            Util.debug( "_ncss++" );
-        }
-
   |
    ClassOrInterfaceDeclaration(modifiers)
   |
@@ -2109,11 +2097,6 @@ void AnnotationTypeMemberDeclaration():
  )
  |
         ( ";" )
-        {
-            _ncss++;
-            Util.debug( "_ncss++" );
-        }
-
 }
 
 void DefaultValue():
@@ -2121,12 +2104,6 @@ void DefaultValue():
 {
   "default" MemberValue()
 }
-
-/*
- * Modifiers. We match all modifiers in a single rule to reduce the chances of
- * syntax errors for simple modifier mistakes. It will also enable us to give
- * better error messages.
- */
 
 int Modifiers():
 {
@@ -2183,12 +2160,7 @@ void EnumDeclaration(int modifiers):
 void TypeParameters():
 {}
 {
-//    "<" TypeParameter() ( "," TypeParameter() )* [">>>"|">>"|">"]// [LOOKAHEAD(2)">"] [LOOKAHEAD(2)">>"] //Removed by REYNAUD Sebastien (LOGICA)
-
-//Added by REYNAUD Sebastien (LOGICA)
-"<" TypeParameter() ( "," TypeParameter() )* ">"
-//
-
+  "<" TypeParameter() ( "," TypeParameter() )* ">"
 }
 
 void ExtendsList(boolean isInterface):
@@ -2198,13 +2170,6 @@ void ExtendsList(boolean isInterface):
 {
    "extends" ClassOrInterfaceType()
    ( "," ClassOrInterfaceType() { extendsMoreThanOne = true; } )*
-   {
-      if (!isInterface) {
-        if (extendsMoreThanOne)
-           throw new ParseException("A class cannot extend more than one other class");
-        _num_superclasses++;
-      }
-   }
 }
 
 void ImplementsList(boolean isInterface):
@@ -2212,33 +2177,18 @@ void ImplementsList(boolean isInterface):
 {
    "implements" ClassOrInterfaceType()
    ( "," ClassOrInterfaceType() )*
-   {
-      if (isInterface)
-         throw new ParseException("An interface cannot implement other interfaces");
-   }
 }
 
 void ClassOrInterfaceBody(boolean isInterface):
 {}
 {
-  "{"
-         { _ncss++; Util.debug( "ClassOrInterfaceBody()._ncss++" ); }
- ( ClassOrInterfaceBodyDeclaration(isInterface) )* "}"
+  "{" ( ClassOrInterfaceBodyDeclaration(isInterface) )* "}"
 }
 
 void EnumBody():
 {}
 {
-    "{"
-           {
-               _ncss++;
-               Util.debug( "_ncss++" );
-           }
-
-   [ EnumConstant() ( LOOKAHEAD(2) "," EnumConstant() )* ]
-        [ "," ]
-   [ ";" ( ClassOrInterfaceBodyDeclaration(false) )* ]
-   "}"
+    "{" [ EnumConstant() ( LOOKAHEAD(2) "," EnumConstant() )* ] [ "," ] [ ";" ( ClassOrInterfaceBodyDeclaration(false) )* ] "}"
 }
 
 void TypeParameter():
@@ -2251,19 +2201,8 @@ void ClassOrInterfaceType():
 {}
 {
   <IDENTIFIER>
-{
-                _sName = getToken(0).image;
-                if ( _tmpResultToken == null )
-                {
-                  _tmpResultToken = getToken( 0 );
-                  Util.debug( "ClassOrInterfaceType._tmpResultToken: " + _tmpResultToken );
-                }
-}
-[ LOOKAHEAD(4) TypeArguments() ]
+  [ LOOKAHEAD(4) TypeArguments() ]
   ( LOOKAHEAD(2) "." <IDENTIFIER>
-        {
-                _sName += "." + getToken(0).image;
-        }
  [ LOOKAHEAD(2) TypeArguments() ] )*
 }
 
@@ -2274,10 +2213,6 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
 {
   LOOKAHEAD(2)
   Initializer()
-  {
-     if (isInterface)
-        throw new ParseException("An interface cannot have initializers");
-  }
 |
   modifiers = Modifiers()
   (
@@ -2330,18 +2265,15 @@ void TypeArgument():
 void ReferenceType():
 {}
 {
-/* ccl 2008-01-23 */
-   PrimitiveType() ( LOOKAHEAD(2) "[" "]" { _sName += "[]"; } )+
+   PrimitiveType() ( LOOKAHEAD(2) "[" "]" )+
   |
-   ( ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" { _sName += "[]"; } )*
+   ( ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
 }
 
 void WildcardBounds():
 {}
 {
-   "extends" ReferenceType()
- |
-   "super" ReferenceType()
+   "extends" ReferenceType() | "super" ReferenceType()
 }
 
 void FieldDeclaration15(int modifiers):

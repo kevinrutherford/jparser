@@ -32,9 +32,6 @@ import javancss.FileMetrics;
  */
 public class JavaParser implements JavaParserInterface
 {
-    {
-    }
-
     private int _num_dependencies = 0;
     private int _num_branches     = 0;
     private int _num_superclasses = 0;

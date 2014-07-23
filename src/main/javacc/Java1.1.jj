@@ -881,29 +881,12 @@ void ClassDeclaration() :
 
 void UnmodifiedClassDeclaration() :
 {
-        String sOldClass = _sClass;
-        int oldNcss = _ncss;
-        int oldFunctions = _functions;
-        int oldClasses = _classes;
-
-	//Added by REYNAUD Sebastien (LOGICA)
-	ObjectMetric metric = new ObjectMetric();
 }
 {
-        {
-                if (!_sClass.equals("")) {
-                        _sClass += ".";
-                }
-                _sClass += getToken(2).image;
-        }
-        Modifiers()
-  "class" Identifier() [TypeParameters()] [ "extends" Name() [TypeArguments()] ("." Name() [TypeArguments()] )* {_num_superclasses++;} ] [ "implements" NameList() ]
+  Modifiers()
+  "class" Identifier() [TypeParameters()] [ "extends" Name() [TypeArguments()] ("." Name() [TypeArguments()] )* {_num_superclasses++;} ]
+  [ "implements" NameList() ]
   ClassBody()
-        {
-                _functions = oldFunctions;
-                _classes = oldClasses + 1;
-                _sClass = sOldClass;
-        }
 }
 
 void ClassBody() :

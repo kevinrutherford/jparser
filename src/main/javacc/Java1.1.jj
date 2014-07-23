@@ -1137,15 +1137,14 @@ void InterfaceMemberDeclaration() :
 {
   EmptyStatement()
 |
-  LOOKAHEAD( /* Added by REYNAUD Sebastien (LOGICA) */ (Annotation())* /**/ ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )* "class" )
+  LOOKAHEAD( (Annotation())* /**/ ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )* "class" )
   NestedClassDeclaration()
 |
-  LOOKAHEAD( /* Added by REYNAUD Sebastien (LOGICA) */ (Annotation())* /**/ ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )* "interface" )
+  LOOKAHEAD( (Annotation())* /**/ ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )* "interface" )
   NestedInterfaceDeclaration()
   |
   LOOKAHEAD( modifiers = Modifiers()
                  "enum" <IDENTIFIER>
-             //EnumDeclaration(modifiers)
              )
    modifiers = Modifiers()
    EnumDeclaration(modifiers)
@@ -1159,34 +1158,12 @@ void InterfaceMemberDeclaration() :
 
 void FieldDeclaration() :
 {
-    // added by SMS
     Token tmpToken = null;
     boolean bPublic = false;
 }
 {
   ( "public" | "protected" | "private" | "static" | "final" | "transient" | "volatile" | Annotation() )*
-  {             tmpToken = getToken( 0 );
-
-                while( tmpToken.specialToken != null )
-                {
-                    if ( tmpToken.specialToken.image.startsWith( "/**" ) )
-                    {
-                        if ((bPublic && _bPublic))
-                        {
-                            JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
-                        }
-                        JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
-                        break;
-                    }
-                    else if ( tmpToken.specialToken.image.startsWith( "/*" ) )
-                    {
-                        break;
-                    }
-                    tmpToken = tmpToken.specialToken;
-                }
-  }
   Type() VariableDeclarator() ( "," VariableDeclarator() )* ";"
-  { _ncss++; Util.debug( "_ncss++" ); }
 }
 
 void VariableDeclarator() :

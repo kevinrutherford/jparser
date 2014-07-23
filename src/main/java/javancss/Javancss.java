@@ -286,47 +286,6 @@ public class Javancss implements Exitable
         return _vFunctionMetrics;
     }
 
-    public void printObjectNcss( Writer w )
-        throws IOException
-    {
-        getFormatter().printObjectNcss( w );
-    }
-
-    public void printFunctionNcss( Writer w )
-        throws IOException
-    {
-        getFormatter().printFunctionNcss( w );
-    }
-
-    public void printPackageNcss( Writer w )
-        throws IOException
-    {
-        getFormatter().printPackageNcss( w );
-    }
-
-    public void printFileStats(Writer w) throws IOException
-    {
-        getFormatter().printFileStats(w);
-    }
-
-    public void printJavaNcss( Writer w )
-        throws IOException
-    {
-        getFormatter().printJavaNcss( w );
-    }
-
-    public void printStart( Writer pw )
-        throws IOException
-    {
-        getFormatter().printStart( pw );
-    }
-
-    public void printEnd( Writer pw )
-        throws IOException
-    {
-        getFormatter().printEnd( pw );
-    }
-
     private void _measureRoot()
         throws Error
     {
@@ -412,25 +371,6 @@ public class Javancss implements Exitable
         _sJavaSourceFile = javaSourceFile_;
         _vJavaSourceFiles = new ArrayList<File>();
         _vJavaSourceFiles.add( javaSourceFile_ );
-    }
-
-    public Javancss( Reader reader )
-    {
-        this( reader, DEFAULT_ENCODING );
-    }
-
-    public Javancss( Reader reader, String encoding_ )
-    {
-        setEncoding( encoding_ );
-        try
-        {
-            _measureRoot( reader );
-        }
-        catch ( Throwable pThrowable )
-        {
-            Util.debug( "Javancss.<init>(Reader).e: " + pThrowable );
-            pThrowable.printStackTrace(System.err);
-        }
     }
 
     /**
@@ -577,18 +517,10 @@ public class Javancss implements Exitable
 
         final PrintWriter pw = new PrintWriter(System.out);
         try {
-            format(pw, htOptions);
+            printFileStats(pw);
         } finally {
             pw.flush();
         }
-    }
-
-    private void format( PrintWriter pw, Map<String, String> htOptions )
-        throws IOException
-    {
-        printStart( pw );
-        printFileStats(pw);
-        printEnd( pw );
     }
 
     public int getNcss()
@@ -596,57 +528,9 @@ public class Javancss implements Exitable
         return _ncss;
     }
 
-    public int getLOC()
-    {
-        return _loc;
-    }
-
-    public int getJvdc()
-    {
-        return _pJavaParser.getJvdc();
-    }
-
-    /**
-     * JDCL stands for javadoc comment lines (while jvdc stands
-     * for number of javadoc comments).
-     */
-    public int getJdcl()
-    {
-        return JavaParserTokenManager._iFormalComments;
-    }
-
-    public int getSl()
-    {
-        return JavaParserTokenManager._iSingleComments;
-    }
-
-    public int getMl()
-    {
-        return JavaParserTokenManager._iMultiComments;
-    }
-
     public FileMetrics getFileMetrics()
     {
         return _fileMetrics;
-    }
-
-    public List<FunctionMetric> getFunctionMetrics()
-    {
-        return _vFunctionMetrics;
-    }
-
-    public List<ObjectMetric> getObjectMetrics()
-    {
-        return _vObjectMetrics;
-    }
-
-    /**
-     * Returns list of packages in the form
-     * PackageMetric objects.
-     */
-    public List<PackageMetric> getPackageMetrics()
-    {
-        return _vPackageMetrics;
     }
 
     public String getLastErrorMessage()
@@ -662,11 +546,6 @@ public class Javancss implements Exitable
     public void setExit()
     {
         _bExit = true;
-    }
-
-    public Formatter getFormatter()
-    {
-        return new AsciiFormatter( this );
     }
 
     public String getEncoding()
@@ -690,4 +569,15 @@ public class Javancss implements Exitable
     {
         return newReader( new FileInputStream( file ) );
     }
+
+    private void printFileStats(Writer w) throws IOException {
+        FileMetrics fm = getFileMetrics();
+        w.write("{\n");
+        w.write("  \"filename\": \"" + fm.filename);
+        w.write("\",\n  \"num_branches\": " + fm.num_branches);
+        w.write(",\n  \"num_dependencies\": " + fm.num_dependencies);
+        w.write(",\n  \"num_superclasses\": " + fm.num_superclasses);
+        w.write("\n}\n");
+    }
+
 }

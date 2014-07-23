@@ -1041,25 +1041,15 @@ void MethodDeclarationLookahead() :
 
 void InterfaceDeclaration() :
 {
-        Token tmpToken = null;
-        _javadocs = 0;
-        //boolean bClassComment = false;
-        ObjectMetric metric = null;
-
-        // added by SMS
-        int oldSingle;
-        int oldMulti;
-
-        boolean bTemp = _bPublic;
-        _bPublic = false;
-        //
-
-	//Added by REYNAUD Sebastien (LOGICA)
+  Token tmpToken = null;
+  _javadocs = 0;
+  ObjectMetric metric = null;
+  int oldSingle;
+  int oldMulti;
+  boolean bTemp = _bPublic;
 	Token myToken=null;
-	//
 }
 {
-	//Added by REYNAUD Sebastien (LOGICA)
 	(
 	{myToken = getToken(1);}
 	Annotation()
@@ -1067,7 +1057,6 @@ void InterfaceDeclaration() :
 	)?
 
 	(Annotation())*
-	//
 
   ( "strictfp" | "abstract"
   {
@@ -1077,7 +1066,6 @@ void InterfaceDeclaration() :
   }
  | "public"
   {
-      _bPublic = true;         // added by SMS
       if ( tmpToken == null ) {
           tmpToken = getToken( 0 );
       }
@@ -1089,51 +1077,17 @@ void InterfaceDeclaration() :
       }
   }
 
-
-  // added by SMS
-  // added by SMS
-  {
-                while( tmpToken.specialToken != null ) {
-                    if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {
-                        _javadocs++;
-                        if (_bPublic) {
-                            JavaParserTokenManager._iFormalComments += JavaParserTokenManager._iMultiCommentsLast;
-                        }
-                        JavaParserTokenManager._iMultiComments -= JavaParserTokenManager._iMultiCommentsLast;
-                        break;
-                    }  else if ( tmpToken.specialToken.image.startsWith( "/*" ) ) {
-                        break;
-                    }
-
-                    //System.out.println("\n"+tmpToken.specialToken.image);
-
-                    tmpToken = tmpToken.specialToken;
-                }
-
-                oldSingle = JavaParserTokenManager._iSingleComments;
-                oldMulti = JavaParserTokenManager._iMultiComments;
-    }
-
   UnmodifiedInterfaceDeclaration()
 }
 
 void NestedInterfaceDeclaration() :
-
 {
-    // added by SMS
-    Token tmpToken = null;
-
-    boolean bTemp = _bPublic;
-    _bPublic = false;
-    boolean bPublic = false;
-
-	//Added by REYNAUD Sebastien (LOGICA)
+  Token tmpToken = null;
+  boolean bTemp = _bPublic;
+  boolean bPublic = false;
 	Token myToken=null;
-	//
-
 }
 {
-	//Added by REYNAUD Sebastien (LOGICA)
 	(
 	{myToken = getToken(1);}
 	Annotation()
@@ -1147,15 +1101,8 @@ void NestedInterfaceDeclaration() :
 		tmpToken = getToken( 1 );
 	}
 	}
-	//
 
-
-  ( "static" | "abstract" | "final"
-  | "public" { bPublic = true; }        // added by SMS
-  | "protected" { bPublic = true; }     // added by SMS
-  | "private" | "strictfp" )*
-
-  // added by SMS
+  ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )*
   {
     while( tmpToken.specialToken != null ) {
         if ( tmpToken.specialToken.image.startsWith( "/**" ) ) {

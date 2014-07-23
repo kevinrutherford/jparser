@@ -1419,12 +1419,6 @@ void MethodDeclaration() :
 	//Added by REYNAUD Sebastien (LOGICA)
 	Token myToken = null;
 	_tmpToken=null;
-	//
-
-	//Added by REYNAUD Sebastien (LOGICA)
-	FunctionMetric functionMetrics = new FunctionMetric();
-	functionMetrics.firstLine = JavaParserTokenManager.nbligne;
-	//
 }
 {
     {
@@ -1570,19 +1564,6 @@ void MethodDeclaration() :
              _ncss++;
              Util.debug( "MethodDeclaration()._ncss++" );
 
-             //FunctionMetric functionMetrics = new FunctionMetric(); //Removed by REYNAUD Sebastien (LOGICA)
-
-             functionMetrics.name = _sPackage + _sClass + _sFunction;
-             functionMetrics.ncss = _ncss - oldNcss;
-             functionMetrics.ccn = _cyc;
-             functionMetrics.javadocs = jvdc;
-
-             // added by SMS
-             functionMetrics.javadocsLn = 0; //jvdcLines;
-             functionMetrics.singleLn = 0; //JavaParserTokenManager._iSingleComments - oldSingle;
-             functionMetrics.multiLn = 0; //JavaParserTokenManager._iMultiComments - oldMulti;
-             //
-
              _sFunction = sOldFunction;
              _functions = oldFunctions + 1;
              _cyc = oldcyc;
@@ -1655,13 +1636,6 @@ void ConstructorDeclaration() :
 
 	//Added by REYNAUD Sebastien (LOGICA)
 	Token myToken = null;
-	//
-
-	//Added by REYNAUD Sebastien (LOGICA)
-	FunctionMetric functionMetrics = new FunctionMetric();
-	functionMetrics.firstLine = JavaParserTokenManager.nbligne;
-	//
-
 }
 {
 

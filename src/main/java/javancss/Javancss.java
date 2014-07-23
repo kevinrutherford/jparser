@@ -326,18 +326,6 @@ public class Javancss implements Exitable
     {
         getFormatter().printEnd( pw );
     }
-    
-    public Javancss( List<File> vJavaSourceFiles_ )
-    {
-        this( vJavaSourceFiles_, DEFAULT_ENCODING );
-    }
-
-    public Javancss( List<File> vJavaSourceFiles_, String encoding_ )
-    {
-        setEncoding( encoding_ );
-        _vJavaSourceFiles = vJavaSourceFiles_;
-        _measureRoot();
-    }
 
     private void _measureRoot()
         throws Error
@@ -351,33 +339,6 @@ public class Javancss implements Exitable
             Util.debug( "Javancss._measureRoot().e: " + pThrowable );
             pThrowable.printStackTrace(System.err);
         }
-    }
-
-    public Javancss( File sJavaSourceFile_ )
-    {
-        this( sJavaSourceFile_, DEFAULT_ENCODING );
-    }
-
-    public Javancss( File sJavaSourceFile_, String encoding_ )
-    {
-        Util.debug( "Javancss.<init>(String).sJavaSourceFile_: " + sJavaSourceFile_ );
-        setEncoding( encoding_ );
-        _sErrorMessage = null;
-        _vJavaSourceFiles = new ArrayList<File>();
-        _vJavaSourceFiles.add( sJavaSourceFile_ );
-        _measureRoot();
-    }
-
-    /**
-     * Only way to create object that does not immediately
-     * start to parse.
-     */
-    public Javancss()
-    {
-        super();
-
-        _sErrorMessage = null;
-        _thrwError = null;
     }
 
     public boolean parseImports()

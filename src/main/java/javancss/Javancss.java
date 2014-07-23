@@ -56,48 +56,43 @@ public class Javancss implements Exitable
         "[Colors]\n" +
         "UseSystemColors=true\n";
     
+    private Init _pInit = null;
     private boolean _bExit = false;
-
     private List<File> _vJavaSourceFiles = null;
-
-    private Throwable _thrwError = null;
-
-    private JavaParserInterface _pJavaParser = null;
+    private JavaParserInterface parser = null;
     private FileMetrics _fileMetrics = new FileMetrics();
 
-    /**
-     * Just used for parseImports.
-     */
-    private File _sJavaSourceFile = null;
-
-    private void _measureSource( File sSourceFile_ ) throws IOException, Exception, Error
+    public Javancss(String[] asArgs_) throws IOException
     {
-        _fileMetrics.filename = sSourceFile_.getPath();
-        Reader reader = null;
-        reader = newReader(sSourceFile_);
-        _measureSource( reader );
+        _pInit = new Init( this, asArgs_, Main.S_RCS_HEADER, S_INIT__FILE_CONTENT );
+        if ( _bExit )
+            return;
+        Map<String, String> htOptions = _pInit.getOptions();
+        _vJavaSourceFiles = findFiles( _pInit.getArguments());
+        try {
+            _measureRoot();
+        } catch ( Throwable pThrowable ) {
+            pThrowable.printStackTrace(System.err);
+            return;
+        }
+
+        final PrintWriter pw = new PrintWriter(System.out);
+        try {
+            printFileStats(pw);
+        } finally {
+            pw.flush();
+        }
     }
 
-    private void _measureSource( Reader reader ) throws IOException, Exception, Error
+    private void _measureRoot() throws Exception
     {
-        _pJavaParser = new JavaParser(reader);
-        _pJavaParser.parse();
-        _pJavaParser.collectFileMetrics(_fileMetrics);
-    }
-
-    private void _measureFiles( List<File> vJavaSourceFiles_ ) throws Exception
-    {
-        for (File file : vJavaSourceFiles_)
-            _measureSource(file);
-    }
-
-    /**
-     * If arguments were provided, they are used, otherwise
-     * the input stream is used.
-     */
-    private void _measureRoot(Reader reader) throws IOException, Exception, Error
-    {
-        _measureFiles( _vJavaSourceFiles );
+        for (File path : _vJavaSourceFiles) {
+            Reader reader = newReader(path);
+            parser = new JavaParser(reader);
+            parser.parse();
+            parser.collectFileMetrics(_fileMetrics);
+            _fileMetrics.filename = path.getPath();
+        }
     }
 
     private List<File> findFiles( List<String> filenames) throws IOException {
@@ -113,36 +108,6 @@ public class Javancss implements Exitable
             newFiles.add( file );
         }
         return newFiles;
-    }
-
-    private Init _pInit = null;
-
-    /**
-     * This is the constructor used in the main routine in
-     * javancss.Main.
-     * Other constructors might be helpful to use Javancss out
-     * of other programs.
-     */
-    public Javancss(String[] asArgs_) throws IOException
-    {
-        _pInit = new Init( this, asArgs_, Main.S_RCS_HEADER, S_INIT__FILE_CONTENT );
-        if ( _bExit )
-            return;
-        Map<String, String> htOptions = _pInit.getOptions();
-        _vJavaSourceFiles = findFiles( _pInit.getArguments());
-        try {
-            _measureRoot( newReader( System.in ) );
-        } catch ( Throwable pThrowable ) {
-            pThrowable.printStackTrace(System.err);
-            return;
-        }
-
-        final PrintWriter pw = new PrintWriter(System.out);
-        try {
-            printFileStats(pw);
-        } finally {
-            pw.flush();
-        }
     }
 
     public void setExit()

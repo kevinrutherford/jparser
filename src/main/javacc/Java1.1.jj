@@ -580,10 +580,10 @@ TOKEN :
 void CompilationUnit() :
 {}
 {
-  [ LOOKAHEAD( ( Annotation() )* "package" ) PackageDeclaration() ]
+  [ LOOKAHEAD((Annotation())* "package") PackageDeclaration() ]
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
-  ((PackageDeclaration() | ( ImportDeclaration() ) )
+  ((PackageDeclaration() | ImportDeclaration())
   ( ImportDeclaration() )*
   ( TypeDeclaration() )+ )*
   <EOF>

@@ -1,5 +1,1 @@
-target/javancss-33.54-SNAPSHOT.jar
-target/javancss-33.54-SNAPSHOT-sources.jar
-target/javancss-33.54-SNAPSHOT.zip
-target/maven-status/*
-target/classes/*
+target/

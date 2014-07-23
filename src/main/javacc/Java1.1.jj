@@ -9,7 +9,6 @@ package javancss.parser;
 
 import java.util.*;
 import ccl.util.Util;
-import javancss.ObjectMetric;
 import javancss.FileMetrics;
 
 /**
@@ -184,11 +183,6 @@ TOKEN :
 |
   < CHARACTER_LITERAL:
       "'"
-                                         // "\r" eigendlich noch dazu, aber wegen bug
-                                         // in java/text/TextBoundaryData.java
-                                         // in zeile 55 columne 12 und zeile 69
-                                         // columne 12 hier entfernt.
-                                         // (   (~["'","\\","\n","\r"])
       (   (~["\\","\n"])
         | ("\\"
             ( ["n","t","b","r","f","\\","'","\""]
@@ -579,14 +573,9 @@ TOKEN :
 | < ELLIPSIS: "..." >
 }
 
-
 /*****************************************
  * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
  *****************************************/
-
-/*
- * Program structuring syntax follows.
- */
 
 void CompilationUnit() :
 {

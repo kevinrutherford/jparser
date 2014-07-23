@@ -56,13 +56,10 @@ public class Javancss implements Exitable
         "\n" +
         "[Colors]\n" +
         "UseSystemColors=true\n";
-
-    private static final String DEFAULT_ENCODING = null;
     
     private boolean _bExit = false;
 
     private List<File> _vJavaSourceFiles = null;
-    private String encoding = DEFAULT_ENCODING;
 
     private String _sErrorMessage = null;
     private Throwable _thrwError = null;
@@ -172,36 +169,10 @@ public class Javancss implements Exitable
     {
         try
         {
-            _pJavaParser = new JavaParser( reader );
-
-            // execute the parser
+            _pJavaParser = new JavaParser(reader);
             _pJavaParser.parse();
             _pJavaParser.collectFileMetrics(_fileMetrics);
-            Util.debug( "Javancss._measureSource(DataInputStream).SUCCESSFULLY_PARSED" );
-
-            _ncss += _pJavaParser.getNcss(); // increment the ncss
-            _loc += _pJavaParser.getLOC(); // and loc
-            // add new data to global vector
-            _vFunctionMetrics.addAll( _pJavaParser.getFunction() );
-            _vObjectMetrics.addAll( _pJavaParser.getObject() );
-            Map<String, PackageMetric> htNewPackages = _pJavaParser.getPackage();
-
-            /* List vNewPackages = new Vector(); */
-            for ( Iterator<Map.Entry<String, PackageMetric>> ePackages = htNewPackages.entrySet().iterator(); ePackages.hasNext(); )
-            {
-                String sPackage = ePackages.next().getKey();
-
-                PackageMetric pckmNext = htNewPackages.get( sPackage );
-                pckmNext.name = sPackage;
-
-                PackageMetric pckmPrevious = _htPackages.get( sPackage );
-                pckmNext.add( pckmPrevious );
-
-                _htPackages.put( sPackage, pckmNext );
-            }
-        }
-        catch ( Exception pParseException )
-        {
+        } catch ( Exception pParseException ) {
             if ( _sErrorMessage == null )
             {
                 _sErrorMessage = "";
@@ -261,109 +232,6 @@ public class Javancss implements Exitable
             _vPackageMetrics.add( pkm );
         }
         Collections.sort( _vPackageMetrics );
-    }
-
-    public List<Object[]> getImports()
-    {
-        return _vImports;
-    }
-
-    /**
-     * Return info about package statement.
-     * First element has name of package,
-     * then begin of line, etc.
-     */
-    public Object[] getPackage()
-    {
-        return _aoPackage;
-    }
-
-    /**
-     * The same as getFunctionMetrics?!
-     */
-    public List<FunctionMetric> getFunctions()
-    {
-        return _vFunctionMetrics;
-    }
-
-    private void _measureRoot()
-        throws Error
-    {
-        try
-        {
-            _measureRoot( newReader( System.in ) );
-        }
-        catch ( Throwable pThrowable )
-        {
-            Util.debug( "Javancss._measureRoot().e: " + pThrowable );
-            pThrowable.printStackTrace(System.err);
-        }
-    }
-
-    public boolean parseImports()
-    {
-        if ( _sJavaSourceFile == null )
-        {
-            Util.debug( "Javancss.parseImports().NO_FILE" );
-
-            return true;
-        }
-        Reader reader = createSourceReader( _sJavaSourceFile );
-        if ( reader == null )
-        {
-            Util.debug( "Javancss.parseImports().NO_DIS" );
-
-            return true;
-        }
-
-        try
-        {
-            Util.debug( "Javancss.parseImports().START_PARSING" );
-            if ( Util.isDebug() == false )
-            {
-                _pJavaParser = new JavaParser( reader );
-            }
-            else
-            {
-                _pJavaParser = new JavaParserDebug( reader );
-            }
-            _pJavaParser.parseImportUnit();
-            _vImports = _pJavaParser.getImports();
-            _aoPackage = _pJavaParser.getPackageObjects();
-            Util.debug( "Javancss.parseImports().END_PARSING" );
-        }
-        catch ( Exception pParseException )
-        {
-            Util.debug( "Javancss.parseImports().PARSE_EXCEPTION" );
-            if ( _sErrorMessage == null )
-            {
-                _sErrorMessage = "";
-            }
-            _sErrorMessage += "ParseException in STDIN";
-            if ( _pJavaParser != null )
-            {
-                _sErrorMessage += "\nLast useful checkpoint: \"" + _pJavaParser.getLastFunction() + "\"\n";
-            }
-            _sErrorMessage += pParseException.getMessage() + "\n";
-            _thrwError = pParseException;
-
-            return true;
-        }
-        catch ( Error pTokenMgrError )
-        {
-            Util.debug( "Javancss.parseImports().TOKEN_ERROR" );
-            if ( _sErrorMessage == null )
-            {
-                _sErrorMessage = "";
-            }
-            _sErrorMessage += "TokenMgrError in STDIN\n";
-            _sErrorMessage += pTokenMgrError.getMessage() + "\n";
-            _thrwError = pTokenMgrError;
-
-            return true;
-        }
-
-        return false;
     }
 
     public void setSourceFile( File javaSourceFile_ )
@@ -496,8 +364,6 @@ public class Javancss implements Exitable
         }
         Map<String, String> htOptions = _pInit.getOptions();
 
-        setEncoding( htOptions.get( "encoding" ) );
-
         // the arguments (the files) to be processed
         _vJavaSourceFiles = findFiles( _pInit.getArguments(), htOptions.get( "recursive" ) != null );
 
@@ -548,20 +414,10 @@ public class Javancss implements Exitable
         _bExit = true;
     }
 
-    public String getEncoding()
-    {
-        return encoding;
-    }
-
-    public void setEncoding( String encoding )
-    {
-        this.encoding = encoding;
-    }
-
     private Reader newReader( InputStream stream )
         throws UnsupportedEncodingException
     {
-        return ( encoding == null ) ? new InputStreamReader( stream ) : new InputStreamReader( stream, encoding );
+        return new InputStreamReader(stream);
     }
 
     private Reader newReader( File file )

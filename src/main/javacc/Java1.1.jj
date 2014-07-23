@@ -77,129 +77,26 @@ public class JavaParser implements JavaParserInterface
     public void parse() throws Exception {
       CompilationUnit();
     }
-
-   /**
-    * Class to hold modifiers.
-    */
-   static public final class ModifierSet
-   {
-     /* Definitions of the bits in the modifiers field.  */
-     public static final int PUBLIC = 0x0001;
-     public static final int PROTECTED = 0x0002;
-     public static final int PRIVATE = 0x0004;
-     public static final int ABSTRACT = 0x0008;
-     public static final int STATIC = 0x0010;
-     public static final int FINAL = 0x0020;
-     public static final int SYNCHRONIZED = 0x0040;
-     public static final int NATIVE = 0x0080;
-     public static final int TRANSIENT = 0x0100;
-     public static final int VOLATILE = 0x0200;
-     public static final int STRICTFP = 0x1000;
-
-     /** A set of accessors that indicate whether the specified modifier
-         is in the set. */
-
-     public boolean isPublic(int modifiers)
-     {
-       return (modifiers & PUBLIC) != 0;
-     }
-
-     public boolean isProtected(int modifiers)
-     {
-       return (modifiers & PROTECTED) != 0;
-     }
-
-     public boolean isPrivate(int modifiers)
-     {
-       return (modifiers & PRIVATE) != 0;
-     }
-
-     public boolean isStatic(int modifiers)
-     {
-       return (modifiers & STATIC) != 0;
-     }
-
-     public boolean isAbstract(int modifiers)
-     {
-       return (modifiers & ABSTRACT) != 0;
-     }
-
-     public boolean isFinal(int modifiers)
-     {
-       return (modifiers & FINAL) != 0;
-     }
-
-     public boolean isNative(int modifiers)
-     {
-       return (modifiers & NATIVE) != 0;
-     }
-
-     public boolean isStrictfp(int modifiers)
-     {
-       return (modifiers & STRICTFP) != 0;
-     }
-
-     public boolean isSynchronized(int modifiers)
-     {
-       return (modifiers & SYNCHRONIZED) != 0;
-     }
-
-     public boolean isTransient(int modifiers)
-      {
-       return (modifiers & TRANSIENT) != 0;
-     }
-
-     public boolean isVolatile(int modifiers)
-     {
-       return (modifiers & VOLATILE) != 0;
-     }
-
-     /**
-      * Removes the given modifier.
-      */
-     static int removeModifier(int modifiers, int mod)
-     {
-        return modifiers & ~mod;
-     }
-   }
 }
 
 PARSER_END(JavaParser)
 
 TOKEN_MGR_DECLS :
 {
-    // added by SMS
-
     public static int  _iSingleComments = 0;
     public static int  _iMultiComments = 0;
     public static int  _iFormalComments = 0;
-
     public static int  _iMultiCommentsLast = 0;
-
-    public static int nbligne = 1; //Added by REYNAUD Sebastien (LOGICA)
+    public static int nbligne = 1;
 }
-
-/* WHITE SPACE */
 
 SKIP :
 {
-  " "
-| "\t"
-| "\n"
-| "\r"
-| "\f"
-| "\u001a"
-| "\r\n" {nbligne++;} //Added by REYNAUD Sebastien (LOGICA)
+  " " | "\t" | "\n" | "\r" | "\f" | "\u001a" | "\r\n"
 }
-
-/* COMMENTS */
 
 MORE :
 {
-   //   "//" : IN_SINGLE_LINE_COMMENT
-   //|
-    //  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
-    //|
   "/*" { _iMultiCommentsLast = 0; } : IN_MULTI_LINE_COMMENT     // MODIFIED by SMS
 }
 
@@ -213,23 +110,6 @@ SPECIAL_TOKEN :
 {
     <SINGLE_LINE_COMMENT2: (~["\n","\r"])* ("\n"|"\r"|"\r\n")?> /*Added by REYNAUD Sebastien (LOGICA)*/ {nbligne++;} /* */: DEFAULT
 }
-
-//<IN_SINGLE_LINE_COMMENT>
-//SPECIAL_TOKEN :
-//{
-//   <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > : DEFAULT
-   //<SINGLE_LINE_COMMENT: (~["\n", "\r"])* ("\n" | "\r" | "\r\n")? >
-   /*"\n" : DEFAULT
-      | "\r" : DEFAULT
-      | "\r\n" : DEFAULT
-      | <~[]>*/
-//}
-
-//<IN_FORMAL_COMMENT>
-//SPECIAL_TOKEN :
-//{
-//  <FORMAL_COMMENT: "*/" > : DEFAULT
-//}
 
 <IN_MULTI_LINE_COMMENT>
 SPECIAL_TOKEN :
@@ -827,50 +707,23 @@ void ImportDeclaration() :
 
 void TypeDeclaration() :
 {
-   int modifiers;
 }
 {
   LOOKAHEAD( (Annotation())* ( "abstract" | "final" | "public" | "synchronized" | "strictfp" )* "class" )
-
-	//(Annotation())*	//Removed by REYNAUD Sebastien (LOGICA)
-
   ClassDeclaration()
-|
-  LOOKAHEAD( modifiers = Modifiers()
-                 "enum" <IDENTIFIER>
-             //EnumDeclaration(modifiers)
-             )
-  modifiers = Modifiers()
-  EnumDeclaration(modifiers)
-|
-         LOOKAHEAD( Modifiers() "interface" )
-
-	//(Annotation())*	//Removed by REYNAUD Sebastien (LOGICA)
-
-  InterfaceDeclaration()
-   |
-  modifiers = Modifiers()
-     AnnotationTypeDeclaration(modifiers)
-|
+  |
+  LOOKAHEAD( Modifiers() "enum" <IDENTIFIER> )
+  Modifiers()
+  EnumDeclaration()
+  |
+  LOOKAHEAD( Modifiers() "interface" )
+  InterfaceDeclaration() | Modifiers() AnnotationTypeDeclaration()
+  |
   ";"
 }
 
-
-/*
- * Declaration syntax follows.
- */
-
 void ClassDeclaration() :
 {
-    Token tmpToken = null;
-    _javadocs = 0;
-    ObjectMetric metric = null;
-
-    // added by SMS
-    int oldSingle = 0;
-    int oldMulti  = 0;
-
-	Token myToken = null;
 }
 {
 	( Annotation() )?
@@ -907,7 +760,6 @@ void NestedClassDeclaration() :
 
 void ClassBodyDeclaration() :
 {
-    int modifiers;
 }
 {
   EmptyStatement()
@@ -916,8 +768,8 @@ void ClassBodyDeclaration() :
   Initializer()
 |
   LOOKAHEAD(( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" | Annotation() )*  "@" "interface")
-  modifiers = Modifiers()
-  AnnotationTypeDeclaration(modifiers)
+  Modifiers()
+  AnnotationTypeDeclaration()
 |
   LOOKAHEAD((Annotation())* "@" "interface")
   CreationAnnotation()
@@ -926,12 +778,12 @@ void ClassBodyDeclaration() :
   NestedClassDeclaration()
 |
   LOOKAHEAD( Modifiers() "interface" )
-  modifiers = Modifiers()
+  Modifiers()
   NestedInterfaceDeclaration()
 |
    LOOKAHEAD( Modifiers() "enum" )
-   modifiers = Modifiers()
-   EnumDeclaration(modifiers)
+   Modifiers()
+   EnumDeclaration()
 |
    LOOKAHEAD( ( "public" | "protected" | "private" | Annotation() )* [ TypeParameters() ] Name() "(" )
    ConstructorDeclaration()
@@ -977,7 +829,6 @@ void UnmodifiedInterfaceDeclaration() :
 
 void InterfaceMemberDeclaration() :
 {
-   int modifiers;
 }
 {
   EmptyStatement()
@@ -988,17 +839,14 @@ void InterfaceMemberDeclaration() :
   LOOKAHEAD( (Annotation())* /**/ ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )* "interface" )
   NestedInterfaceDeclaration()
   |
-  LOOKAHEAD( modifiers = Modifiers()
-                 "enum" <IDENTIFIER>
-             )
-   modifiers = Modifiers()
-   EnumDeclaration(modifiers)
+  LOOKAHEAD( Modifiers() "enum" <IDENTIFIER> )
+   Modifiers()
+   EnumDeclaration()
 |
   LOOKAHEAD( MethodDeclarationLookahead() )
   MethodDeclaration()
 |
-  modifiers = Modifiers()
-  FieldDeclaration()
+  Modifiers() FieldDeclaration()
 }
 
 void FieldDeclaration() :
@@ -1172,17 +1020,13 @@ void FormalParameters() :
 void FormalParameter() :
 {}
 {
-    //[ "final" ]
-           Modifiers()
-    Type() [ "..." ] VariableDeclaratorId()
+  Modifiers() Type() [ "..." ] VariableDeclaratorId()
 }
 
 void CatchParameter() :
 {}
 {
-    //[ "final" ]
-           Modifiers()
-    Type() ( LOOKAHEAD(2) "|" Type() )* [ "|" ] VariableDeclaratorId()
+  Modifiers() Type() ( LOOKAHEAD(2) "|" Type() )* [ "|" ] VariableDeclaratorId()
 }
 
 void ConstructorDeclaration() :
@@ -1911,7 +1755,7 @@ void CreationAnnotation():
 }
 //
 
-void AnnotationTypeDeclaration(int modifiers):
+void AnnotationTypeDeclaration():
 {}
 {
   "@" "interface" <IDENTIFIER> AnnotationTypeBody()
@@ -1925,21 +1769,20 @@ void AnnotationTypeBody():
 
 void AnnotationTypeMemberDeclaration():
 {
-   int modifiers;
 }
 {
- modifiers = Modifiers()
+ Modifiers()
  (
    LOOKAHEAD(Type() <IDENTIFIER> "(")
    Type() <IDENTIFIER> "(" ")" [ DefaultValue() ] ";"
   |
-   ClassOrInterfaceDeclaration(modifiers)
+   ClassOrInterfaceDeclaration()
   |
-   EnumDeclaration(modifiers)
+   EnumDeclaration()
   |
-   AnnotationTypeDeclaration(modifiers)
+   AnnotationTypeDeclaration()
   |
-   FieldDeclaration15(modifiers)
+   FieldDeclaration15()
  )
  |
         ( ";" )
@@ -1951,21 +1794,15 @@ void DefaultValue():
   "default" MemberValue()
 }
 
-int Modifiers():
+void Modifiers():
 {
-   int modifiers = 0;
-   _tmpToken = null;
 }
 {
  (LOOKAHEAD(2) ("public" | "static" | "protected" | "private" | "final" | "abstract" | "synchronized" |
    "native" | "transient" | "volatile" | "strictfp" | Annotation() ) )*
-
- {
-    return modifiers;
- }
 }
 
-void ClassOrInterfaceDeclaration(int modifiers):
+void ClassOrInterfaceDeclaration():
 {
    boolean isInterface = false;
 }
@@ -1978,7 +1815,7 @@ void ClassOrInterfaceDeclaration(int modifiers):
   ClassOrInterfaceBody(isInterface)
 }
 
-void EnumDeclaration(int modifiers):
+void EnumDeclaration():
 {
         String sOldClass = _sClass;
         int oldClasses = _classes;
@@ -2054,25 +1891,24 @@ void ClassOrInterfaceType():
 
 void ClassOrInterfaceBodyDeclaration(boolean isInterface):
 {
-   int modifiers;
 }
 {
   LOOKAHEAD(2)
   Initializer()
 |
-  modifiers = Modifiers()
+  Modifiers()
   (
-      ClassOrInterfaceDeclaration(modifiers)
+      ClassOrInterfaceDeclaration()
     |
-      EnumDeclaration(modifiers)
+      EnumDeclaration()
     |
       LOOKAHEAD( [ TypeParameters() ] <IDENTIFIER> "(" )
       ConstructorDeclaration()
     |
       LOOKAHEAD( Type() <IDENTIFIER> ( "[" "]" )* ( "," | "=" | ";" ) )
-      FieldDeclaration15(modifiers)
+      FieldDeclaration15()
     |
-      MethodDeclaration15(modifiers)
+      MethodDeclaration15()
   )
 |
   ";"
@@ -2122,13 +1958,13 @@ void WildcardBounds():
    "extends" ReferenceType() | "super" ReferenceType()
 }
 
-void FieldDeclaration15(int modifiers):
+void FieldDeclaration15():
 {}
 {
   Type() VariableDeclarator() ( "," VariableDeclarator() )* ";"
 }
 
-void MethodDeclaration15(int modifiers):
+void MethodDeclaration15():
 {}
 {
     MethodDeclaration()

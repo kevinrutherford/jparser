@@ -627,12 +627,14 @@ void TypeDeclaration() :
 }
 
 void ClassDeclaration() :
-{}
+{
+  boolean isFinal = false;
+}
 {
 	(Annotation())?
 	(Annotation())*
-  ( "abstract" | "final" | "public" | "synchronized" | "strictfp" )*
-  UnmodifiedClassDeclaration()
+  ( "abstract" | "final" { isFinal = true; } | "public" | "synchronized" | "strictfp" )*
+  UnmodifiedClassDeclaration() { if (!isFinal) _num_superclasses++; }
 }
 
 void UnmodifiedClassDeclaration() :
@@ -651,12 +653,14 @@ void ClassBody() :
 }
 
 void NestedClassDeclaration() :
-{}
+{
+  boolean isFinal = false;
+}
 {
 	(Annotation())?
 	(Annotation())*
-  ( "static" | "abstract" | "final" | "public" | "protected" | "private" | "strictfp" )*
-  UnmodifiedClassDeclaration()
+  ( "static" | "abstract" | "final" { isFinal = true; } | "public" | "protected" | "private" | "strictfp" )*
+  UnmodifiedClassDeclaration() { if (!isFinal) _num_superclasses++; }
 }
 
 void ClassBodyDeclaration() :

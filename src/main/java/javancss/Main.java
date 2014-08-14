@@ -7,11 +7,21 @@ public class Main
     public static void main(String[] asArgs) throws Exception
     {
 		Javancss pJavancss = new Javancss();
-		for(String filename : asArgs) {
-			File file = new File(filename);
+		for(int i = 0; i < asArgs.length; ++i) {
+			final String filename = asArgs[i];
+			final File file = new File(filename);
 			if(file.exists()) {
-				FileMetrics metrics = pJavancss.measure(filename);
-				System.out.println(metrics.toString());
+				final FileMetrics metrics = pJavancss.measure(filename);
+				if(metrics != null) {
+					System.out.print(metrics.toString());
+					if(i < asArgs.length - 1) {
+						System.out.println(",");
+					} else {
+						System.out.println();
+					}
+				} else {
+					System.err.println("failed to measure file [" + filename + ']');
+				}
 			}
 		}
         System.exit(0);

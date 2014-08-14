@@ -22,7 +22,7 @@ public class FileMetrics {
 		sb.append("  \"num_branches\": ").append(num_branches).append(",\n");
 		sb.append("  \"num_dependencies\": ").append(num_dependencies).append(",\n");
 		sb.append("  \"num_superclasses\": ").append(num_superclasses).append("\n");
-		sb.append("}\n");
+		sb.append("}");
 		return sb.toString();
 	}
 }

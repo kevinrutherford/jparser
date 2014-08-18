@@ -17,11 +17,11 @@ public class FileMetrics {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("{\n");
-		sb.append("  \"filename\": \"").append(filename).append("\",\n");
-		sb.append("  \"num_branches\": ").append(num_branches).append(",\n");
-		sb.append("  \"num_dependencies\": ").append(num_dependencies).append(",\n");
-		sb.append("  \"num_superclasses\": ").append(num_superclasses).append("\n");
+		StringBuilder sb = new StringBuilder();
+		sb.append("\"").append(filename).append("\":{");
+		sb.append("\"num_branches\":").append(num_branches).append(",");
+		sb.append("\"num_dependencies\":").append(num_dependencies).append(",");
+		sb.append("\"num_superclasses\":").append(num_superclasses);
 		sb.append("}");
 		return sb.toString();
 	}

@@ -9,41 +9,28 @@ import javancss.parser.JavaParserInterface;
 
 public class Javancss
 {
-    private FileMetrics _fileMetrics = new FileMetrics();
-
-    public Javancss(String[] argv) throws Exception
-    {
-        try {
-            measure(argv[0]);
-            printFileStats();
-        } catch (Throwable pThrowable) {
-            pThrowable.printStackTrace(System.err);
-            return;
-        }
-    }
-
-    private void measure(String path) throws Exception
-    {
-        Reader reader = newReader(new File(path));
-        JavaParserInterface parser = new JavaParser(reader);
-        parser.parse();
-        parser.collectFileMetrics(_fileMetrics);
-        _fileMetrics.filename = path;
+	/**
+	 * Measures metrics for a file and returns a metrics object
+	 * @param path The file to measure
+	 * @return The measured FileMetrics or null if an exception occurred
+	 */
+    public FileMetrics measure(String path) {
+		try {
+			Reader reader = newReader(new File(path));
+			JavaParserInterface parser = new JavaParser(reader);
+			FileMetrics metrics = new FileMetrics();
+			metrics.filename = path;
+        	parser.parse();
+        	parser.collectFileMetrics(metrics);
+			return metrics;
+		} catch (Throwable t) {
+			t.printStackTrace(System.err);
+			return null;
+		}
     }
 
     private Reader newReader(File file) throws Exception {
         return new InputStreamReader((new FileInputStream(file)));
-    }
-
-    private void printFileStats() throws Exception {
-        FileMetrics fm = _fileMetrics;
-        System.out.println("{");
-        System.out.println("  \"filename\": \"" + fm.filename + "\",");
-        System.out.println("  \"num_branches\": " + fm.num_branches + ",");
-        System.out.println("  \"num_dependencies\": " + fm.num_dependencies + ",");
-        System.out.println("  \"num_superclasses\": " + fm.num_superclasses);
-        System.out.println("}");
-        System.out.flush();
     }
 
 }
